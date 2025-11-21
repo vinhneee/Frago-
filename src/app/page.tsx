@@ -211,9 +211,9 @@ export default function HomePage() {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">FS</span>
+                  <span className="text-white font-bold text-sm">FG</span>
                 </div>
-                <h3 className="text-lg font-bold">FranchiseSwipe</h3>
+                <h3 className="text-lg font-bold">Frago</h3>
               </div>
               <p className="text-gray-400">
                 The leading B2B platform for franchise-investor connections

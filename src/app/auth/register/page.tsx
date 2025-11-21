@@ -8,7 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useState } from "react";
-
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
     email: "",
@@ -269,6 +268,7 @@ export default function RegisterPage() {
                 <Label htmlFor="terms" className="text-sm text-gray-600 leading-relaxed">
                   I agree to the{" "}
                   <Link href="/terms" className="text-blue-600 hover:underline">
+
                     Terms of Service
                   </Link>{" "}
                   and{" "}

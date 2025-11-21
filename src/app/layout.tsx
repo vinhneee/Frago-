@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   title: "Frago - B2B Franchise Connection Platform",
   description: "Connect franchise brands with investors. Swipe to find your perfect business match.",
 };
-
 export default function RootLayout({
   children,
 }: {

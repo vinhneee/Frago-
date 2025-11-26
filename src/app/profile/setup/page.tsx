@@ -1,18 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileForm from "@/components/ProfileForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ProfileSetupPage() {
   const [userType, setUserType] = useState<"brand" | "investor" | null>(null);
   const [step, setStep] = useState<"select" | "form" | "complete">("select");
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const preselectedType = searchParams.get("userType");
+
+    if (preselectedType === "brand" || preselectedType === "investor") {
+      setUserType(preselectedType);
+      setStep("form");
+    }
+  }, [searchParams]);
 
   const handleUserTypeSelection = (type: "brand" | "investor") => {
+    if (type === "brand") {
+      router.push(
+        `/pricing/brand-owner?returnTo=${encodeURIComponent(
+          "/profile/setup?userType=brand",
+        )}`,
+      );
+      return;
+    }
     setUserType(type);
     setStep("form");
   };
@@ -83,12 +101,12 @@ export default function ProfileSetupPage() {
           <div className="text-center">
             <Link href="/" className="inline-flex items-center space-x-2 mb-8">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">FS</span>
+                <span className="text-white font-bold">FG</span>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900">FranchiseSwipe</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Frago</h1>
             </Link>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Role</h2>
-            <p className="text-gray-600">Select how you'll use FranchiseSwipe to get personalized matches</p>
+            <p className="text-gray-600">Select how you'll use Frago to get personalized matches</p>
           </div>
 
           {/* Role Selection Cards */}

@@ -7,19 +7,19 @@ import Link from "next/link";
 export default function AboutPage() {
   const teamMembers = [
     {
-      name: "Nguyễn Văn Minh",
+      name: "Đào Lê Quang Vinh",
       role: "CEO & Co-founder",
       bio: "15+ năm kinh nghiệm trong lĩnh vực franchise và đầu tư. Từng làm việc tại các tập đoàn F&B lớn.",
       image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3de505a5-5556-43d5-a5a3-0c3c21db30fc.png"
     },
     {
-      name: "Trần Thị Lan",
+      name: "Nguyễn Hữu Công Thành",
       role: "CTO & Co-founder", 
       bio: "Chuyên gia công nghệ với background từ Google và Meta. Passion về AI và machine learning.",
       image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ff9c37f4-1811-47dc-8d83-5a662f63e259.png"
     },
     {
-      name: "Lê Hoàng Nam",
+      name: "Phạm Trần Duy Thái",
       role: "Head of Business Development",
       bio: "Veteran trong ngành nhượng quyền Việt Nam. Network rộng với các brand và investor hàng đầu.",
       image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/590a64f1-a318-4b61-82ec-5d370af6c4aa.png"

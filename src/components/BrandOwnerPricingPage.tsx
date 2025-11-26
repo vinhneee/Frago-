@@ -2,17 +2,28 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 
-const MONTHLY_BASE = 1500000;
+const MONTHLY_BASE = 1_500_000;
 const DISCOUNT_RATE = 0.2;
 
 export default function BrandOwnerPricingPage() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const pricing = useMemo(() => {
     const annualTotal = MONTHLY_BASE * 12;
@@ -37,6 +48,7 @@ export default function BrandOwnerPricingPage() {
 
   const isYearly = billingCycle === "yearly";
   const currentPlan = pricing[billingCycle];
+  const returnTo = searchParams.get("returnTo");
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
@@ -168,6 +180,15 @@ export default function BrandOwnerPricingPage() {
                 <Link href="/auth/register">
                   <Button className="bg-blue-600 text-white hover:bg-blue-700">Đăng ký Brand Owner</Button>
                 </Link>
+                {returnTo && (
+                  <Button
+                    variant="outline"
+                    className="border-slate-200 text-slate-800 hover:bg-slate-100"
+                    onClick={() => router.push(returnTo)}
+                  >
+                    Tiếp tục tạo hồ sơ
+                  </Button>
+                )}
                 <Link href="/pricing">
                   <Button variant="outline" className="border-slate-200 text-slate-800 hover:bg-slate-100">Xem bảng giá chung</Button>
                 </Link>

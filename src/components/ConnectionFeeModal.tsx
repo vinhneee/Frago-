@@ -88,7 +88,7 @@ export default function ConnectionFeeModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-gray-50 border border-gray-200 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-gray-900">
             Connection Fee Calculator

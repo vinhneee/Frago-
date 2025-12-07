@@ -178,15 +178,6 @@ function BrandOwnerPricingContent() {
                 <Link href="/auth/register">
                   <Button className="bg-blue-600 text-white hover:bg-blue-700">Đăng ký Brand Owner</Button>
                 </Link>
-                {returnTo && (
-                  <Button
-                    variant="outline"
-                    className="border-slate-200 text-slate-800 hover:bg-slate-100"
-                    onClick={() => router.push(returnTo)}
-                  >
-                    Tiếp tục tạo hồ sơ
-                  </Button>
-                )}
                 <Link href="/pricing">
                   <Button variant="outline" className="border-slate-200 text-slate-800 hover:bg-slate-100">Xem bảng giá chung</Button>
                 </Link>

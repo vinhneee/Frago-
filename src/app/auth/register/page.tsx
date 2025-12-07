@@ -34,9 +34,9 @@ export default function RegisterPage() {
       alert("Vui lòng chọn loại tài khoản");
       return;
     }
-    
+
     setIsLoading(true);
-    
+
     try {
       // Simulate API call for registration
       const response = await fetch('/api/auth', {
@@ -58,12 +58,12 @@ export default function RegisterPage() {
       });
 
       const result = await response.json();
-      
+
       if (result.success) {
         // Store user data in localStorage (in production: use secure storage)
         localStorage.setItem('user', JSON.stringify(result.user));
         localStorage.setItem('token', result.token);
-        
+
         // Show success message and redirect
         const successDiv = document.createElement('div');
         successDiv.innerHTML = `
@@ -72,7 +72,7 @@ export default function RegisterPage() {
           </div>
         `;
         document.body.appendChild(successDiv);
-        
+
         setTimeout(() => {
           document.body.removeChild(successDiv);
           window.location.href = "/profile/setup";
@@ -202,14 +202,23 @@ export default function RegisterPage() {
               {/* User Type Selection */}
               <div className="space-y-2">
                 <Label htmlFor="userType">Account Type</Label>
-                <Select value={formData.userType} onValueChange={(value) => handleInputChange("userType", value)}>
+                <Select
+                  value={formData.userType}
+                  onValueChange={(value) => handleInputChange("userType", value)}
+                >
                   <SelectTrigger className="h-11">
-                    <SelectValue placeholder="Select your role" />
+                    <SelectValue placeholder="Select account type" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">Select account type</SelectItem>
-                    <SelectItem value="brand">Franchise Brand Owner</SelectItem>
-                    <SelectItem value="investor">Investor/Franchisee</SelectItem>
+                  <SelectContent className="bg-white border border-gray-200 rounded-xl shadow-lg">
+                    <SelectItem value="none" className="cursor-pointer hover:bg-gray-100">
+                      Select account type
+                    </SelectItem>
+                    <SelectItem value="brand" className="cursor-pointer hover:bg-gray-100">
+                      Franchise Brand Owner
+                    </SelectItem>
+                    <SelectItem value="investor" className="cursor-pointer hover:bg-gray-100">
+                      Investor/Franchisee
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>

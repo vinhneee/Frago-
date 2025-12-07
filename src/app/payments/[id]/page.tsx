@@ -18,10 +18,29 @@ import { PaymentStatusBadge } from "@/components/PaymentStatusBadge";
 // Inline fallback PaymentTimeline to avoid missing module error (replace with real component later)
 const PaymentTimeline = ({ events = [] }: any) => {
     return (
-        <div>
+        <div className="space-y-4">
             {events.map((ev: any, idx: number) => (
-                <div key={idx} className="text-sm text-muted-foreground">
-                    {ev?.label ?? String(ev)}
+                <div key={ev.id || idx} className="relative flex gap-3 pb-4 last:pb-0">
+                    {/* Timeline dot */}
+                    <div className="flex flex-col items-center">
+                        <div className={`h-3 w-3 rounded-full ${
+                            ev.type === 'success' ? 'bg-green-500' :
+                            ev.type === 'error' ? 'bg-red-500' :
+                            ev.type === 'warning' ? 'bg-yellow-500' :
+                            'bg-blue-500'
+                        }`} />
+                        {idx < events.length - 1 && (
+                            <div className="w-px flex-1 bg-slate-200 mt-1" style={{ minHeight: '20px' }} />
+                        )}
+                    </div>
+                    {/* Content */}
+                    <div className="flex-1 pt-0">
+                        <p className="text-sm font-medium text-slate-900">{ev.title}</p>
+                        <p className="text-xs text-slate-500 mt-0.5">{ev.description}</p>
+                        <p className="text-xs text-slate-400 mt-1">
+                            {format(new Date(ev.timestamp), "dd/MM/yyyy HH:mm:ss", { locale: vi })}
+                        </p>
+                    </div>
                 </div>
             ))}
         </div>

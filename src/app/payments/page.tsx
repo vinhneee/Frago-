@@ -161,11 +161,12 @@ export default function PaymentsPage() {
                                 <TableHead>
                                   <TableRow>
                                     <TableHead>Id</TableHead>
-                                    <TableHead>Ngày</TableHead>
                                     <TableHead>Mô tả</TableHead>
-                                    <TableHead>Số tiền</TableHead>
+                                    <TableHead>Ngày</TableHead>
                                     <TableHead>Phương thức</TableHead>
+                                    <TableHead>Số tiền</TableHead>
                                     <TableHead>Trạng thái</TableHead>
+                                    <TableHead>Chi tiết</TableHead>
                                   </TableRow>
                                 </TableHead>
                                 <TableBody>

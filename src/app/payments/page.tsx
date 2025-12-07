@@ -16,6 +16,7 @@ import {
     TableBody,
     TableCell,
     TableHead,
+    TableHeader,
     TableRow,
 } from "@/components/ui/table";
 import {Badge} from "@/components/ui/badge";
@@ -158,62 +159,63 @@ export default function PaymentsPage() {
                             </CardHeader>
                             <CardContent>
                               <Table>
-                                <TableHead>
+                                <TableHeader>
                                   <TableRow>
                                     <TableHead>Id</TableHead>
-                                    <TableHead>Ngày</TableHead>
                                     <TableHead>Mô tả</TableHead>
-                                    <TableHead>Số tiền</TableHead>
+                                    <TableHead>Ngày</TableHead>
                                     <TableHead>Phương thức</TableHead>
+                                    <TableHead>Số tiền</TableHead>
                                     <TableHead>Trạng thái</TableHead>
+                                    <TableHead className="text-right">Hành động</TableHead>
                                   </TableRow>
-                                </TableHead>
+                                </TableHeader>
                                 <TableBody>
-                                  {filteredPayments.map((p) => (
-                                    <TableRow key={p.id}>
-                                      <TableCell>{p.id}</TableCell>
-                                      <TableCell>{format(p.date, "dd MMM yyyy, HH:mm", { locale: vi })}</TableCell>
-                                      <TableCell>{p.description}</TableCell>
-                                      <TableCell>{p.amount.toLocaleString()} {p.currency}</TableCell>
-                                      <TableCell>{p.method}</TableCell>
-                                      <TableCell><PaymentStatusBadge status={p.status as any} /></TableCell>
-                                    </TableRow>
-                                  ))}
-                                </TableBody>
-                                {filteredPayments.length === 0 ? (
+                                  {filteredPayments.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={7} className="text-center text-slate-500">
-                                         Không có giao dịch nào </TableCell>
+                                      <TableCell colSpan={7} className="text-center text-slate-500">
+                                        Không có giao dịch nào
+                                      </TableCell>
                                     </TableRow>
-                                    ) : (filteredPayments.map((payment) => (
-                                        <TableRow key={payment.id}>
-                                            <TableCell className="font-mono text-sm">{payment.id}</TableCell>
-                                            <TableCell><div><p className="font-medium text-slate-900">
-                                                {payment.description}</p>
-                                                <p className="text-xs text-slate-500">
-                                                    {payment.invoiceId}
-                                                </p>
-                                                </div>
-                                            </TableCell>
-                                            <TableCell className="text-sm text-slate-600">
-                                                 {format(payment.date, "dd/MM/yyyy", { locale: vi })}
-                                            </TableCell>
-                                            <TableCell><Badge variant="outline" className="text-xs">
-                                                {payment.method} </Badge>
-                                            </TableCell>
-                                            <TableCell className="font-semibold text-slate-900">
-                                                {payment.amount.toLocaleString("vi-VN")}đ
-                                            </TableCell>
-                                            <TableCell>
-                                                <PaymentStatusBadge status={payment.status} />
-                                            </TableCell>
-                                             <TableCell className="text-right"><Link href={`/payments/${payment.id}`}>
-                                             <Button variant="ghost" size="sm">Chi tiết
-                                             </Button>
-                                                </Link>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))) }
+                                  ) : (
+                                    filteredPayments.map((payment) => (
+                                      <TableRow key={payment.id}>
+                                        <TableCell className="font-mono text-sm">{payment.id}</TableCell>
+                                        <TableCell>
+                                          <div>
+                                            <p className="font-medium text-slate-900">
+                                              {payment.description}
+                                            </p>
+                                            <p className="text-xs text-slate-500">
+                                              {payment.invoiceId}
+                                            </p>
+                                          </div>
+                                        </TableCell>
+                                        <TableCell className="text-sm text-slate-600">
+                                          {format(payment.date, "dd/MM/yyyy", { locale: vi })}
+                                        </TableCell>
+                                        <TableCell>
+                                          <Badge variant="outline" className="text-xs">
+                                            {payment.method}
+                                          </Badge>
+                                        </TableCell>
+                                        <TableCell className="font-semibold text-slate-900">
+                                          {payment.amount.toLocaleString("vi-VN")}đ
+                                        </TableCell>
+                                        <TableCell>
+                                          <PaymentStatusBadge status={payment.status} />
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                          <Link href={`/payments/${payment.id}`}>
+                                            <Button variant="ghost" size="sm">
+                                              Chi tiết
+                                            </Button>
+                                          </Link>
+                                        </TableCell>
+                                      </TableRow>
+                                    ))
+                                  )}
+                                </TableBody>
                               </Table>
                             </CardContent>
                           </Card>

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { use, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
@@ -236,10 +236,10 @@ const mockPaymentsData: Record<string, any> = {
 export default function PaymentDetailPage({
     params,
 }: {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }) {
     const router = useRouter();
-    const { id } = params;
+    const { id } = use(params);
     const payment = mockPaymentsData[id];
     if (!payment) {
         return (

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import SwipeCard from "./SwipeCard";
+import ConnectionFeeModal from "./ConnectionFeeModal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const mockBrands = [
@@ -11,37 +12,45 @@ const mockBrands = [
     company: "Hồng trà ngô gia",
     location: "Ho Chi Minh City, Vietnam",
     industry: "Tea & Milk",
-    description: "Một thương hiệu trà sữa Việt Nam đang phát triển nhanh, nổi tiếng với mức giá phải chăng, hương vị trà rang đặc trưng và lượng khách hàng trung thành lớn. Hiện đang tìm kiếm đối tác nhượng quyền để mở rộng trên toàn quốc.",
+    description:
+      "Một thương hiệu trà sữa Việt Nam đang phát triển nhanh, nổi tiếng với mức giá phải chăng, hương vị trà rang đặc trưng và lượng khách hàng trung thành lớn. Hiện đang tìm kiếm đối tác nhượng quyền để mở rộng trên toàn quốc.",
     franchiseFee: 4000,
     minInvestment: 7000,
     storeCount: 80,
-    tags: ["Milk Tea", "Affordable", "Popular", "Fast Expansion"]
+    tags: ["Milk Tea", "Affordable", "Popular", "Fast Expansion"],
   },
   {
-    id: "2", 
+    id: "2",
     image: "thanh.png",
     name: "Le Minh Anh",
     company: "Mixue",
     location: "Hanoi, Vietnam",
     industry: "Ice Cream & Beverages",
-    description: "Một thương hiệu trà và kem toàn cầu phát triển nhanh, nổi tiếng với mức giá rẻ và sức hút mạnh đối với thị trường đại chúng. Hiện đang mở rộng mạnh mẽ tại Việt Nam với mô hình vận hành ổn định và nhu cầu nhượng quyền cao.",
+    description:
+      "Một thương hiệu trà và kem toàn cầu phát triển nhanh, nổi tiếng với mức giá rẻ và sức hút mạnh đối với thị trường đại chúng. Hiện đang mở rộng mạnh mẽ tại Việt Nam với mô hình vận hành ổn định và nhu cầu nhượng quyền cao.",
     franchiseFee: 2000,
     minInvestment: 18000,
     storeCount: 89,
-    tags: ["Ice Cream", "Milk Tea", "Low Cost", "High Demand"]
+    tags: ["Ice Cream", "Milk Tea", "Low Cost", "High Demand"],
   },
   {
     id: "3",
     name: "Trần Gia Bảo",
     company: "Cộng Cà Phê",
-    location: "Hanoi, Vietnam", 
+    location: "Hanoi, Vietnam",
     industry: "Coffee & Beverages",
-    description: "Một chuỗi cà phê Việt Nam có phong cách độc đáo, lấy cảm hứng từ thẩm mỹ thời chiến mang màu sắc hoài cổ. Thương hiệu nổi tiếng với món cà phê cốt dừa đặc trưng và bản sắc văn hóa mạnh mẽ. Hiện đang tìm kiếm các đối tác chiến lược để mở rộng tại Việt Nam và quốc tế.",
+    description:
+      "Một chuỗi cà phê Việt Nam có phong cách độc đáo, lấy cảm hứng từ thẩm mỹ thời chiến mang màu sắc hoài cổ. Thương hiệu nổi tiếng với món cà phê cốt dừa đặc trưng và bản sắc văn hóa mạnh mẽ. Hiện đang tìm kiếm các đối tác chiến lược để mở rộng tại Việt Nam và quốc tế.",
     franchiseFee: 11000,
     minInvestment: 110000,
     storeCount: 64,
-    tags: ["Vietnamese Coffee", "Unique Concept", "Cultural Brand", "Strong Identity"]
-  }
+    tags: [
+      "Vietnamese Coffee",
+      "Unique Concept",
+      "Cultural Brand",
+      "Strong Identity",
+    ],
+  },
 ];
 
 const mockInvestors = [
@@ -51,10 +60,11 @@ const mockInvestors = [
     company: "Park Investment Group",
     location: "Seattle, WA",
     industry: "Multi-Unit Development",
-    description: "Experienced multi-unit operator seeking scalable franchise opportunities in the Pacific Northwest region.",
+    description:
+      "Experienced multi-unit operator seeking scalable franchise opportunities in the Pacific Northwest region.",
     budget: 500000,
     experience: "10+ years",
-    tags: ["Multi-Unit", "Experienced", "Pacific NW", "Growth Focused"]
+    tags: ["Multi-Unit", "Experienced", "Pacific NW", "Growth Focused"],
   },
   {
     id: "5",
@@ -62,11 +72,17 @@ const mockInvestors = [
     company: "Smith Capital Partners",
     location: "Chicago, IL",
     industry: "Food & Beverage",
-    description: "Private investor with restaurant industry background. Looking for established food franchise opportunities in Midwest markets.",
+    description:
+      "Private investor with restaurant industry background. Looking for established food franchise opportunities in Midwest markets.",
     budget: 750000,
     experience: "15+ years",
-    tags: ["Food Industry", "Established Brands", "Midwest", "Restaurant Expert"]
-  }
+    tags: [
+      "Food Industry",
+      "Established Brands",
+      "Midwest",
+      "Restaurant Expert",
+    ],
+  },
 ];
 
 interface SwipeInterfaceProps {
@@ -78,7 +94,8 @@ export default function SwipeInterface({ userType }: SwipeInterfaceProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [matches, setMatches] = useState<string[]>([]);
   const [swipeCount, setSwipeCount] = useState(0);
-
+  const [isFeeModalOpen, setIsFeeModalOpen] = useState(false);
+  const [matchedProfile, setMatchedProfile] = useState<any>(null);
   useEffect(() => {
     // Set profiles based on user type - brands see investors, investors see brands
     const profiles = userType === "brand" ? mockInvestors : mockBrands;
@@ -86,23 +103,34 @@ export default function SwipeInterface({ userType }: SwipeInterfaceProps) {
   }, [userType]);
 
   const handleSwipe = (direction: "left" | "right", profileId: string) => {
-    setSwipeCount(prev => prev + 1);
-    
+    setSwipeCount((prev) => prev + 1);
+
     if (direction === "right") {
-      setMatches(prev => [...prev, profileId]);
-      // In real app, this would check for mutual match
+      setMatches((prev) => [...prev, profileId]);
+      // Store the matched profile and open fee modal
+      const profile = currentProfiles.find((p) => p.id === profileId);
+      setMatchedProfile(profile);
+      setIsFeeModalOpen(true);
       console.log(`Liked ${profileId}`);
     }
 
     // Move to next profile
     if (currentIndex < currentProfiles.length - 1) {
-      setCurrentIndex(prev => prev + 1);
+      setCurrentIndex((prev) => prev + 1);
     } else {
       // No more profiles - could load more or show completion
       setCurrentIndex(0); // Reset for demo
     }
   };
-
+  const handleFeeConfirm = (contractValue: number, fee: number) => {
+    console.log(
+      `Connection fee confirmed: Contract Value: ${contractValue}, Fee: ${fee}`
+    );
+  };
+  const handleFeeModalClose = () => {
+    setIsFeeModalOpen(false);
+    setMatchedProfile(null);
+  };
   const currentProfile = currentProfiles[currentIndex];
 
   if (!currentProfile) {
@@ -114,11 +142,10 @@ export default function SwipeInterface({ userType }: SwipeInterfaceProps) {
           </CardHeader>
           <CardContent>
             <p className="text-gray-600 mb-4">
-              You've viewed all available {userType === "brand" ? "investors" : "brands"} in your area.
+              You've viewed all available{" "}
+              {userType === "brand" ? "investors" : "brands"} in your area.
             </p>
-            <Button onClick={() => setCurrentIndex(0)}>
-              Start Over
-            </Button>
+            <Button onClick={() => setCurrentIndex(0)}>Start Over</Button>
           </CardContent>
         </Card>
       </div>
@@ -135,9 +162,11 @@ export default function SwipeInterface({ userType }: SwipeInterfaceProps) {
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
-          <div 
+          <div
             className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${((currentIndex + 1) / currentProfiles.length) * 100}%` }}
+            style={{
+              width: `${((currentIndex + 1) / currentProfiles.length) * 100}%`,
+            }}
           ></div>
         </div>
       </div>
@@ -156,7 +185,9 @@ export default function SwipeInterface({ userType }: SwipeInterfaceProps) {
           <div className="text-sm text-gray-500">Profiles Viewed</div>
         </Card>
         <Card className="p-4">
-          <div className="text-2xl font-bold text-green-600">{matches.length}</div>
+          <div className="text-2xl font-bold text-green-600">
+            {matches.length}
+          </div>
           <div className="text-sm text-gray-500">Matches</div>
         </Card>
       </div>
@@ -168,6 +199,12 @@ export default function SwipeInterface({ userType }: SwipeInterfaceProps) {
           <p>Tap ✕ to pass • Tap ❤ to show interest</p>
         </div>
       </Card>
+      <ConnectionFeeModal
+        isOpen={isFeeModalOpen}
+        onClose={handleFeeModalClose}
+        onConfirm={handleFeeConfirm}
+        matchedCompany={matchedProfile?.company || "Business Partner"}
+      />
     </div>
   );
 }

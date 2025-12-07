@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Connection Fee Modal Test</title>
+
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+
+        max-width: 800px;
+
+        margin: 50px auto;
+
+        padding: 20px;
+
+        background: #f8fafc;
+      }
+
+      .test-card {
+        background: white;
+
+        border-radius: 12px;
+
+        padding: 30px;
+
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #1e293b;
+
+        margin-bottom: 10px;
+      }
+
+      .description {
+        color: #64748b;
+
+        margin-bottom: 30px;
+      }
+
+      .test-section {
+        margin: 20px 0;
+
+        padding: 20px;
+
+        background: #f1f5f9;
+
+        border-radius: 8px;
+      }
+
+      .test-section h3 {
+        color: #334155;
+
+        margin-top: 0;
+      }
+
+      .feature-list {
+        list-style: none;
+
+        padding: 0;
+      }
+
+      .feature-list li {
+        padding: 8px 0;
+
+        color: #475569;
+      }
+
+      .feature-list li:before {
+        content: "✓ ";
+
+        color: #10b981;
+
+        font-weight: bold;
+
+        margin-right: 8px;
+      }
+
+      .link-button {
+        display: inline-block;
+
+        background: #3b82f6;
+
+        color: white;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        text-decoration: none;
+
+        font-weight: 500;
+
+        margin-top: 20px;
+
+        transition: background 0.2s;
+      }
+
+      .link-button:hover {
+        background: #2563eb;
+      }
+
+      .code-block {
+        background: #1e293b;
+
+        color: #e2e8f0;
+
+        padding: 15px;
+
+        border-radius: 6px;
+
+        overflow-x: auto;
+
+        font-family: "Courier New", monospace;
+
+        font-size: 14px;
+
+        margin: 15px 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="test-card">
+      <h1>✅ Connection Fee Modal - Implementation Complete</h1>
+
+      <p class="description">
+        A professional B2B connection fee calculator modal has been successfully
+        integrated into your business-matching platform.
+      </p>
+
+      <div class="test-section">
+        <h3>🎯 Features Implemented</h3>
+
+        <ul class="feature-list">
+          <li>Clean, minimal modal UI with professional B2B styling</li>
+
+          <li>Automatic 5% fee calculation based on contract value</li>
+
+          <li>Real-time currency formatting (USD)</li>
+
+          <li>Match success notification with company name</li>
+
+          <li>Input validation (prevents negative/zero values)</li>
+
+          <li>Responsive design with proper spacing and shadows</li>
+
+          <li>Accessible dialog with close button (X) and cancel option</li>
+
+          <li>Blue/gray professional color palette</li>
+        </ul>
+      </div>
+
+      <div class="test-section">
+        <h3>🔧 Technical Implementation</h3>
+
+        <ul class="feature-list">
+          <li>Created ConnectionFeeModal component using Radix UI Dialog</li>
+
+          <li>Integrated into SwipeInterface component</li>
+
+          <li>Triggers automatically when user clicks heart (❤️) button</li>
+
+          <li>Uses React hooks for state management</li>
+
+          <li>TypeScript for type safety</li>
+
+          <li>Tailwind CSS for styling</li>
+        </ul>
+      </div>
+
+      <div class="test-section">
+        <h3>📝 How to Test</h3>
+
+        <ol style="color: #475569; padding-left: 20px">
+          <li>Navigate to the Dashboard page</li>
+
+          <li>Go to the "Discover" tab</li>
+
+          <li>Click the heart (❤️) button on any profile card</li>
+
+          <li>The Connection Fee Calculator modal will appear</li>
+
+          <li>Enter a contract value (e.g., 100000)</li>
+
+          <li>See the automatic 5% fee calculation ($5,000.00)</li>
+
+          <li>Click "Confirm Connection Fee" or "Cancel"</li>
+        </ol>
+      </div>
+
+      <div class="test-section">
+        <h3>💡 Example Calculation</h3>
+
+        <div class="code-block">
+          Contract Value: $100,000.00 Connection Fee (5%): $5,000.00 Total Cost:
+          $5,000.00
+        </div>
+      </div>
+
+      <a href="http://localhost:3000/dashboard" class="link-button">
+        🚀 Test the Modal on Dashboard
+      </a>
+
+      <div
+        style="
+          margin-top: 30px;
+          padding-top: 20px;
+          border-top: 1px solid #e2e8f0;
+          color: #64748b;
+          font-size: 14px;
+        "
+      >
+        <strong>Files Modified:</strong><br>
+        /src/components/ConnectionFeeModal.tsx (new)
+        <br>
+        /src/components/SwipeInterface.tsx (updated)
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,269 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    CONNECTION FEE CALCULATOR MODAL                           ║
+║                         Visual Mockup & Design                               ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│                                                                            │
+│                    MODAL APPEARANCE (Centered on Screen)                   │
+│                                                                            │
+│    ┌──────────────────────────────────────────────────────────────┐      │
+│    │  Connection Fee Calculator                              ✕    │      │
+│    │  This fee applies when two businesses match successfully.    │      │
+│    ├──────────────────────────────────────────────────────────────┤      │
+│    │                                                               │      │
+│    │  ┌─────────────────────────────────────────────────────────┐ │      │
+│    │  │                        ❤️                                │ │      │
+│    │  │             Connection Successful!                       │ │      │
+│    │  │       You matched with Hồng trà ngô gia                 │ │      │
+│    │  └─────────────────────────────────────────────────────────┘ │      │
+│    │  [Green background: #10b981 / Green 50]                      │      │
+│    │                                                               │      │
+│    │  Contract Value (USD)                                         │      │
+│    │  ┌─────────────────────────────────────────────────────────┐ │      │
+│    │  │ $ [100000.00                                    ]        │ │      │
+│    │  └─────────────────────────────────────────────────────────┘ │      │
+│    │  Enter the total value of your business deal contract        │      │
+│    │                                                               │      │
+│    │  ┌─────────────────────────────────────────────────────────┐ │      │
+│    │  │                                                          │ │      │
+│    │  │  Connection Fee (5%)                    $5,000.00       │ │      │
+│    │  │                                                          │ │      │
+│    │  │  ─────────────────────────────────────────────────────  │ │      │
+│    │  │                                                          │ │      │
+│    │  │  Total Cost                             $5,000.00       │ │      │
+│    │  │                                                          │ │      │
+│    │  └─────────────────────────────────────────────────────────┘ │      │
+│    │  [Blue background: #eff6ff / Blue 50]                        │      │
+│    │                                                               │      │
+│    │  ┌─────────────────────────────────────────────────────────┐ │      │
+│    │  │ ℹ️ Note: The connection fee is calculated as 5% of      │ │      │
+│    │  │ your contract value. This fee enables our platform to   │ │      │
+│    │  │ facilitate successful business partnerships.            │ │      │
+│    │  └─────────────────────────────────────────────────────────┘ │      │
+│    │  [Gray background: #f9fafb / Gray 50]                        │      │
+│    │                                                               │      │
+│    │                                                               │      │
+│    │              ┌────────┐    ┌──────────────────────────┐     │      │
+│    │              │ Cancel │    │ Confirm Connection Fee   │     │      │
+│    │              └────────┘    └──────────────────────────┘     │      │
+│    │              [Outline]     [Primary Blue: #3b82f6]          │      │
+│    │                                                               │      │
+│    └──────────────────────────────────────────────────────────────┘      │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                           COLOR SPECIFICATIONS                               ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ELEMENT                    │ COLOR CODE    │ TAILWIND CLASS                 │
+├────────────────────────────┼───────────────┼────────────────────────────────┤
+│ Modal Background           │ #FFFFFF       │ bg-white                       │
+│ Modal Border               │ #E5E7EB       │ border-gray-200                │
+│ Modal Shadow               │ rgba(0,0,0,.1)│ shadow-lg                      │
+│                            │               │                                │
+│ Title Text                 │ #111827       │ text-gray-900                  │
+│ Description Text           │ #4B5563       │ text-gray-600                  │
+│                            │               │                                │
+│ Success Card Background    │ #D1FAE5       │ bg-green-50                    │
+│ Success Card Border        │ #A7F3D0       │ border-green-200               │
+│ Success Card Text          │ #065F46       │ text-green-800                 │
+│                            │               │                                │
+│ Input Border               │ #D1D5DB       │ border-gray-300                │
+│ Input Text                 │ #111827       │ text-gray-900                  │
+│ Input Placeholder          │ #9CA3AF       │ placeholder-gray-400           │
+│                            │               │                                │
+│ Fee Display Background     │ #EFF6FF       │ bg-blue-50                     │
+│ Fee Display Border         │ #BFDBFE       │ border-blue-200                │
+│ Fee Amount Text            │ #2563EB       │ text-blue-600                  │
+│                            │               │                                │
+│ Info Box Background        │ #F9FAFB       │ bg-gray-50                     │
+│ Info Box Border            │ #E5E7EB       │ border-gray-200                │
+│ Info Box Text              │ #4B5563       │ text-gray-600                  │
+│                            │               │                                │
+│ Cancel Button              │ #FFFFFF       │ bg-white border-gray-300       │
+│ Cancel Button Text         │ #374151       │ text-gray-700                  │
+│                            │               │                                │
+│ Confirm Button             │ #3B82F6       │ bg-blue-600                    │
+│ Confirm Button Hover       │ #2563EB       │ hover:bg-blue-700              │
+│ Confirm Button Text        │ #FFFFFF       │ text-white                     │
+│ Confirm Button Disabled    │ #9CA3AF       │ bg-gray-400 opacity-50         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         TYPOGRAPHY SPECIFICATIONS                            ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ELEMENT                    │ SIZE    │ WEIGHT  │ LINE HEIGHT │ COLOR        │
+├────────────────────────────┼─────────┼─────────┼─────────────┼──────────────┤
+│ Modal Title                │ 20px    │ Bold    │ 1.2         │ Gray 900     │
+│ Modal Description          │ 14px    │ Regular │ 1.5         │ Gray 600     │
+│                            │         │         │             │              │
+│ Success Message (main)     │ 14px    │ Medium  │ 1.4         │ Green 800    │
+│ Success Message (sub)      │ 12px    │ Regular │ 1.4         │ Green 600    │
+│                            │         │         │             │              │
+│ Input Label                │ 14px    │ Medium  │ 1.4         │ Gray 700     │
+│ Input Text                 │ 16px    │ Regular │ 1.5         │ Gray 900     │
+│ Input Helper Text          │ 12px    │ Regular │ 1.4         │ Gray 500     │
+│                            │         │         │             │              │
+│ Fee Label                  │ 14px    │ Regular │ 1.4         │ Gray 700     │
+│ Fee Amount                 │ 18px    │ Semibold│ 1.4         │ Blue 600     │
+│                            │         │         │             │              │
+│ Total Label                │ 16px    │ Medium  │ 1.4         │ Gray 900     │
+│ Total Amount               │ 20px    │ Bold    │ 1.4         │ Gray 900     │
+│                            │         │         │             │              │
+│ Info Note                  │ 12px    │ Regular │ 1.6         │ Gray 600     │
+│                            │         │         │             │              │
+│ Button Text                │ 14px    │ Medium  │ 1.4         │ Varies       │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                          SPACING & DIMENSIONS                                ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ELEMENT                    │ VALUE                                          │
+├────────────────────────────┼────────────────────────────────────────────────┤
+│ Modal Width (Desktop)      │ 448px (max-w-md)                               │
+│ Modal Width (Mobile)       │ calc(100% - 2rem)                              │
+│ Modal Padding              │ 24px (p-6)                                     │
+│ Modal Border Radius        │ 8px (rounded-lg)                               │
+│                            │                                                │
+│ Section Spacing            │ 24px (space-y-6)                               │
+│ Element Spacing            │ 8px (space-y-2)                                │
+│                            │                                                │
+│ Success Card Padding       │ 16px (p-4)                                     │
+│ Success Card Border Radius │ 8px (rounded-lg)                               │
+│                            │                                                │
+│ Input Height               │ 36px (h-9)                                     │
+│ Input Padding              │ 12px horizontal (px-3)                         │
+│ Input Border Radius        │ 6px (rounded-md)                               │
+│                            │                                                │
+│ Fee Display Padding        │ 16px (p-4)                                     │
+│ Fee Display Border Radius  │ 8px (rounded-lg)                               │
+│                            │                                                │
+│ Info Box Padding           │ 12px (p-3)                                     │
+│ Info Box Border Radius     │ 8px (rounded-lg)                               │
+│                            │                                                │
+│ Button Height              │ 36px (h-9)                                     │
+│ Button Padding             │ 16px horizontal (px-4)                         │
+│ Button Border Radius       │ 6px (rounded-md)                               │
+│ Button Gap                 │ 8px (gap-2)                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                            INTERACTION STATES                                ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ELEMENT          │ STATE      │ VISUAL CHANGE                               │
+├──────────────────┼────────────┼─────────────────────────────────────────────┤
+│ Input Field      │ Default    │ Border: Gray 300, Background: White         │
+│                  │ Focus      │ Border: Blue 500, Ring: Blue 200            │
+│                  │ Error      │ Border: Red 500, Ring: Red 200              │
+│                  │ Disabled   │ Background: Gray 100, Opacity: 50%          │
+│                  │            │                                             │
+│ Cancel Button    │ Default    │ Border: Gray 300, Background: White         │
+│                  │ Hover      │ Background: Gray 50                         │
+│                  │ Active     │ Background: Gray 100                        │
+│                  │ Focus      │ Ring: Blue 200                              │
+│                  │            │                                             │
+│ Confirm Button   │ Default    │ Background: Blue 600, Text: White           │
+│                  │ Hover      │ Background: Blue 700                        │
+│                  │ Active     │ Background: Blue 800                        │
+│                  │ Focus      │ Ring: Blue 200                              │
+│                  │ Disabled   │ Background: Gray 400, Opacity: 50%          │
+│                  │            │                                             │
+│ Close Button (X) │ Default    │ Opacity: 70%                                │
+│                  │ Hover      │ Opacity: 100%                               │
+│                  │ Active     │ Opacity: 100%, Scale: 95%                   │
+│                  │            │                                             │
+│ Modal Overlay    │ Default    │ Background: rgba(0,0,0,0.5)                 │
+│                  │ Entering   │ Fade in (200ms)                             │
+│                  │ Exiting    │ Fade out (200ms)                            │
+│                  │            │                                             │
+│ Modal Content    │ Default    │ Scale: 100%, Opacity: 100%                  │
+│                  │ Entering   │ Scale: 95% → 100%, Fade in (200ms)          │
+│                  │ Exiting    │ Scale: 100% → 95%, Fade out (200ms)         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                          RESPONSIVE BREAKPOINTS                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ BREAKPOINT       │ SCREEN SIZE  │ MODAL BEHAVIOR                            │
+├──────────────────┼──────────────┼───────────────────────────────────────────┤
+│ Mobile           │ < 640px      │ Full width minus 2rem padding             │
+│                  │              │ Buttons stack vertically                  │
+│                  │              │ Font sizes remain same                    │
+│                  │              │                                           │
+│ Tablet           │ 640px - 768px│ Max width 448px, centered                 │
+│                  │              │ Buttons side by side                      │
+│                  │              │                                           │
+│ Desktop          │ > 768px      │ Max width 448px, centered                 │
+│                  │              │ Buttons side by side                      │
+│                  │              │ Hover effects enabled                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         ACCESSIBILITY FEATURES                               ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+✓ Keyboard Navigation
+  - Tab: Move between interactive elements
+  - Shift+Tab: Move backwards
+  - Enter: Activate focused button
+  - Escape: Close modal
+
+✓ Screen Reader Support
+  - Dialog role with proper ARIA labels
+  - Descriptive button labels
+  - Form labels associated with inputs
+  - Status messages announced
+
+✓ Focus Management
+  - Focus trapped within modal when open
+  - Focus returns to trigger element on close
+  - Visible focus indicators
+
+✓ Color Contrast
+  - All text meets WCAG AA standards (4.5:1 minimum)
+  - Interactive elements have sufficient contrast
+
+✓ Touch Targets
+  - Minimum 44x44px touch targets
+  - Adequate spacing between interactive elements
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                            ANIMATION TIMING                                  ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ANIMATION                  │ DURATION │ EASING                              │
+├────────────────────────────┼──────────┼─────────────────────────────────────┤
+│ Modal Fade In              │ 200ms    │ ease-out                            │
+│ Modal Fade Out             │ 200ms    │ ease-in                             │
+│ Modal Scale In             │ 200ms    │ ease-out                            │
+│ Modal Scale Out            │ 200ms    │ ease-in                             │
+│ Overlay Fade In            │ 200ms    │ ease-out                            │
+│ Overlay Fade Out           │ 200ms    │ ease-in                             │
+│ Button Hover               │ 150ms    │ ease-in-out                         │
+│ Input Focus                │ 150ms    │ ease-in-out                         │
+│ Fee Calculation Update     │ 0ms      │ instant (real-time)                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                              END OF VISUAL MOCKUP
+═══════════════════════════════════════════════════════════════════════════════

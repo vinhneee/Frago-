@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import SwipeCard from "./SwipeCard";
+import ConnectionFeeModal from "./ConnectionFeeModal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const mockBrands = [
@@ -78,6 +79,8 @@ export default function SwipeInterface({ userType }: SwipeInterfaceProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [matches, setMatches] = useState<string[]>([]);
   const [swipeCount, setSwipeCount] = useState(0);
+  const [isFeeModalOpen, setIsFeeModalOpen] = useState(false);
+  const [matchedProfile, setMatchedProfile] = useState<any>(null);
 
   useEffect(() => {
     // Set profiles based on user type - brands see investors, investors see brands
@@ -90,7 +93,10 @@ export default function SwipeInterface({ userType }: SwipeInterfaceProps) {
     
     if (direction === "right") {
       setMatches(prev => [...prev, profileId]);
-      // In real app, this would check for mutual match
+      // Store the matched profile and open fee modal
+      const profile = currentProfiles.find(p => p.id === profileId);
+      setMatchedProfile(profile);
+      setIsFeeModalOpen(true);
       console.log(`Liked ${profileId}`);
     }
 
@@ -101,6 +107,17 @@ export default function SwipeInterface({ userType }: SwipeInterfaceProps) {
       // No more profiles - could load more or show completion
       setCurrentIndex(0); // Reset for demo
     }
+  };
+
+  const handleFeeConfirm = (contractValue: number, fee: number) => {
+    console.log(`Connection fee confirmed: Contract Value: ${contractValue}, Fee: ${fee}`);
+    // In real app, this would process the payment and create the connection
+    // For now, just log and close
+  };
+
+  const handleFeeModalClose = () => {
+    setIsFeeModalOpen(false);
+    setMatchedProfile(null);
   };
 
   const currentProfile = currentProfiles[currentIndex];
@@ -168,6 +185,14 @@ export default function SwipeInterface({ userType }: SwipeInterfaceProps) {
           <p>Tap ✕ to pass • Tap ❤ to show interest</p>
         </div>
       </Card>
+
+      {/* Connection Fee Modal */}
+      <ConnectionFeeModal
+        isOpen={isFeeModalOpen}
+        onClose={handleFeeModalClose}
+        onConfirm={handleFeeConfirm}
+        matchedCompany={matchedProfile?.company || "Business Partner"}
+      />
     </div>
   );
 }

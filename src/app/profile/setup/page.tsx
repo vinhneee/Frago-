@@ -24,11 +24,7 @@ function ProfileSetupContent() {
 
   const handleUserTypeSelection = (type: "brand" | "investor") => {
     if (type === "brand") {
-      router.push(
-        `/pricing/brainowner?returnTo=${encodeURIComponent(
-          "/profile/setup?userType=brand",
-        )}`,
-      );
+      router.push("/profile/contract-value");
       return;
     }
     setUserType(type);

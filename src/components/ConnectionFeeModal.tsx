@@ -27,6 +27,16 @@ interface ConnectionFeeModalProps {
   matchedCompany?: string;
 }
 
+// Calculate connection fee based on deal count tiers
+const calculateConnectionFee = (dealCount: number): number => {
+  if (dealCount < 50) return 200000;
+  if (dealCount >= 50 && dealCount < 100) return 3000000;
+  if (dealCount >= 100 && dealCount < 300) return 8000000;
+  if (dealCount >= 300 && dealCount < 700) return 10000000;
+  if (dealCount >= 700 && dealCount < 1000) return 12750000;
+  return 14000000; // 1000+
+};
+
 export default function ConnectionFeeModal({
   isOpen,
 
@@ -36,54 +46,91 @@ export default function ConnectionFeeModal({
 
   matchedCompany = "Business Partner",
 }: ConnectionFeeModalProps) {
-  const [contractValue, setContractValue] = useState<string>("");
-
+  const [contractValue, setContractValue] = useState<number>(0);
+  const [dealCount, setDealCount] = useState<number>(0);
   const [connectionFee, setConnectionFee] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
 
-  const [totalCost, setTotalCost] = useState<number>(0);
-
-  // Calculate fee whenever contract value changes
-
+  // Fetch contract data when modal opens
   useEffect(() => {
-    const value = parseFloat(contractValue) || 0;
+    if (isOpen) {
+      fetchContractData();
+    }
+  }, [isOpen]);
 
-    const fee = value * 0.05; // 5% fee
+  const fetchContractData = async () => {
+    setIsLoading(true);
+    try {
+      // Get current user data
+      const userData = localStorage.getItem("user");
+      const userId = userData ? JSON.parse(userData).id : "current-user";
 
-    setConnectionFee(fee);
+      const response = await fetch(`/api/contracts?userId=${userId}`);
+      const result = await response.json();
 
-    setTotalCost(fee); // For MVP, total cost = fee
-  }, [contractValue]);
+      if (result.success && result.contracts.length > 0) {
+        // Get the most recent verified contract
+        const verifiedContract = result.contracts.find(
+          (c: any) => c.status === "verified"
+        );
+
+        if (verifiedContract) {
+          setContractValue(verifiedContract.contractValue);
+          setDealCount(verifiedContract.dealCount);
+          const fee = calculateConnectionFee(verifiedContract.dealCount);
+          setConnectionFee(fee);
+        } else {
+          // No verified contract found
+          setContractValue(0);
+          setDealCount(0);
+          setConnectionFee(0);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching contract data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleConfirm = () => {
-    const value = parseFloat(contractValue) || 0;
-
-    if (value > 0) {
-      onConfirm(value, connectionFee);
-
-      handleClose();
+    if (contractValue > 0 && connectionFee > 0) {
+      setIsRedirecting(true);
+      
+      // Show redirecting message
+      setTimeout(() => {
+        onConfirm(contractValue, connectionFee);
+        handleClose();
+      }, 1500);
     }
   };
 
   const handleClose = () => {
-    setContractValue("");
-
+    setContractValue(0);
+    setDealCount(0);
     setConnectionFee(0);
-
-    setTotalCost(0);
-
+    setIsLoading(true);
+    setIsRedirecting(false);
     onClose();
   };
 
   const formatCurrency = (amount: number): string => {
-    return new Intl.NumberFormat("en-US", {
+    return new Intl.NumberFormat("vi-VN", {
       style: "currency",
-
-      currency: "USD",
-
-      minimumFractionDigits: 2,
-
-      maximumFractionDigits: 2,
+      currency: "VND",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(amount);
+  };
+
+  const getTierDescription = (dealCount: number): string => {
+    if (dealCount < 50) return "Dưới 50 giao dịch";
+    if (dealCount >= 50 && dealCount < 100) return "50 - 100 giao dịch";
+    if (dealCount >= 100 && dealCount < 300) return "100 - 300 giao dịch";
+    if (dealCount >= 300 && dealCount < 700) return "300 - 700 giao dịch";
+    if (dealCount >= 700 && dealCount < 1000) return "700 - 1000 giao dịch";
+    return "Trên 1000 giao dịch";
   };
 
   return (
@@ -91,115 +138,130 @@ export default function ConnectionFeeModal({
       <DialogContent className="sm:max-w-md bg-gray-50 border border-gray-200 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-gray-900">
-            Connection Fee Calculator
+            Chi phí kết nối
           </DialogTitle>
 
           <DialogDescription className="text-gray-600">
-            This fee applies when two businesses match successfully.
+            Chi phí này được áp dụng khi hai doanh nghiệp kết nối thành công
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
-          {/* Match Success Message */}
-
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-            <div className="text-2xl mb-2">❤️</div>
-
-            <p className="text-sm font-medium text-green-800">
-              Connection Successful!
-            </p>
-
-            <p className="text-xs text-green-600 mt-1">
-              You matched with{" "}
-              <span className="font-semibold">{matchedCompany}</span>
+        {isLoading ? (
+          <div className="py-8 text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Đang tải thông tin...</p>
+          </div>
+        ) : isRedirecting ? (
+          <div className="py-8 text-center">
+            <div className="text-4xl mb-4">💳</div>
+            <p className="text-lg font-semibold text-blue-600">
+              Đang chuyển đến phần thanh toán...
             </p>
           </div>
-
-          {/* Contract Value Input */}
-
-          <div className="space-y-2">
-            <Label
-              htmlFor="contractValue"
-              className="text-sm font-medium text-gray-700"
+        ) : contractValue === 0 ? (
+          <div className="py-8 text-center space-y-4">
+            <div className="text-4xl mb-2">⚠️</div>
+            <p className="text-gray-700 font-medium">
+              Chưa có thông tin hợp đồng được xác minh
+            </p>
+            <p className="text-sm text-gray-600">
+              Vui lòng cung cấp thông tin giá trị hợp đồng và chờ admin xác minh
+            </p>
+            <Button
+              onClick={() => {
+                handleClose();
+                window.location.href = "/profile/contract-value";
+              }}
+              className="bg-blue-600 hover:bg-blue-700"
             >
-              Contract Value (USD)
-            </Label>
-
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                $
-              </span>
-
-              <Input
-                id="contractValue"
-                type="number"
-                placeholder="0.00"
-                value={contractValue}
-                onChange={(e) => setContractValue(e.target.value)}
-                className="pl-7 text-base"
-                min="0"
-                step="0.01"
-              />
-            </div>
-
-            <p className="text-xs text-gray-500">
-              Enter the total value of your business deal contract
-            </p>
+              Nhập thông tin hợp đồng
+            </Button>
           </div>
+        ) : (
+          <>
+            <div className="space-y-6 py-4">
+              {/* Match Success Message */}
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                <div className="text-2xl mb-2">❤️</div>
+                <p className="text-sm font-medium text-green-800">
+                  Kết nối thành công!
+                </p>
+                <p className="text-xs text-green-600 mt-1">
+                  Bạn đã kết nối với{" "}
+                  <span className="font-semibold">{matchedCompany}</span>
+                </p>
+              </div>
 
-          {/* Fee Calculation Display */}
+              {/* Contract Value Display (Read-only) */}
+              <div className="space-y-2">
+                <Label className="text-sm font-medium text-gray-700">
+                  Giá trị hợp đồng (VND)
+                </Label>
+                <div className="bg-gray-100 border border-gray-300 rounded-lg p-3">
+                  <p className="text-lg font-bold text-gray-900">
+                    {formatCurrency(contractValue)}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Số giao dịch: {dealCount} ({getTierDescription(dealCount)})
+                  </p>
+                </div>
+                <p className="text-xs text-gray-500">
+                  Thông tin này đã được xác minh bởi admin
+                </p>
+              </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-700">Connection Fee (5%)</span>
+              {/* Fee Calculation Display */}
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-700">
+                    Chi phí kết nối
+                  </span>
+                  <span className="text-lg font-semibold text-blue-600">
+                    {formatCurrency(connectionFee)}
+                  </span>
+                </div>
 
-              <span className="text-lg font-semibold text-blue-600">
-                {formatCurrency(connectionFee)}
-              </span>
-            </div>
+                <div className="border-t border-blue-200 pt-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-base font-medium text-gray-900">
+                      Tổng chi phí
+                    </span>
+                    <span className="text-xl font-bold text-gray-900">
+                      {formatCurrency(connectionFee)}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-            <div className="border-t border-blue-200 pt-3">
-              <div className="flex justify-between items-center">
-                <span className="text-base font-medium text-gray-900">
-                  Total Cost
-                </span>
-
-                <span className="text-xl font-bold text-gray-900">
-                  {formatCurrency(totalCost)}
-                </span>
+              {/* Info Note */}
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                <p className="text-xs text-gray-600 leading-relaxed">
+                  <span className="font-semibold">Lưu ý:</span> Chi phí kết nối
+                  được tính dựa trên số lượng giao dịch theo bảng giá. Chi phí này
+                  giúp nền tảng duy trì và phát triển dịch vụ kết nối doanh nghiệp.
+                </p>
               </div>
             </div>
-          </div>
 
-          {/* Info Note */}
-
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
-            <p className="text-xs text-gray-600 leading-relaxed">
-              <span className="font-semibold">Note:</span> The connection fee is
-              calculated as 5% of your contract value. This fee enables our
-              platform to facilitate successful business partnerships.
-            </p>
-          </div>
-        </div>
-
-        <DialogFooter className="gap-2 sm:gap-0">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleClose}
-            className="w-full sm:w-auto"
-          >
-            Cancel
-          </Button>
-          <Button
-            type="button"
-            onClick={handleConfirm}
-            disabled={!contractValue || parseFloat(contractValue) <= 0}
-            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700"
-          >
-            Confirm Connection Fee
-          </Button>
-        </DialogFooter>
+            <DialogFooter className="gap-2 sm:gap-0">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleClose}
+                className="w-full sm:w-auto"
+              >
+                Hủy
+              </Button>
+              <Button
+                type="button"
+                onClick={handleConfirm}
+                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700"
+              >
+                Xác nhận
+              </Button>
+            </DialogFooter>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

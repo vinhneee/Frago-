@@ -1,528 +1,528 @@
-"useclient";
-import{use,useState}from"react";
-importLinkfrom"next/link";
-import{useRouter}from"next/navigation";
-import{format}from"date-fns";
-import{vi}from"date-fns/locale";
-import{Button}from"@/components/ui/button";
-import{
-Card,
-CardContent,
-CardDescription,
-CardHeader,
-CardTitle,
-}from"@/components/ui/card";
-import{Separator}from"@/components/ui/separator";
-import{Badge}from"@/components/ui/badge";
-import{PaymentStatusBadge}from"@/components/PaymentStatusBadge";
-//InlinefallbackPaymentTimelinetoavoidmissingmoduleerror(replacewithrealcomponentlater)
-constPaymentTimeline=({events=[]}:any)=>{
-return(
-<divclassName="space-y-4">
-{events.map((ev:any,idx:number)=>(
-<divkey={ev.id||idx}className="relativeflexgap-3pb-4last:pb-0">
-{/*Timelinedot*/}
-<divclassName="flexflex-colitems-center">
-<divclassName={`h-3w-3rounded-full${
-ev.type==='success'?'bg-green-500':
-ev.type==='error'?'bg-red-500':
-ev.type==='warning'?'bg-yellow-500':
-'bg-blue-500'
-}`}/>
-{idx<events.length-1&&(
-<divclassName="w-pxflex-1bg-slate-200mt-1"style={{minHeight:'20px'}}/>
-)}
-</div>
-{/*Content*/}
-<divclassName="flex-1pt-0">
-<pclassName="text-smfont-mediumtext-slate-900">{ev.title}</p>
-<pclassName="text-xstext-slate-500mt-0.5">{ev.description}</p>
-<pclassName="text-xstext-slate-400mt-1">
-{format(newDate(ev.timestamp),"dd/MM/yyyyHH:mm:ss",{locale:vi})}
-</p>
-</div>
-</div>
-))}
-</div>
-);
+"use client";
+import { use, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { PaymentStatusBadge } from "@/components/PaymentStatusBadge";
+// Inline fallback PaymentTimeline to avoid missing module error (replace with real component later)
+const PaymentTimeline = ({ events = [] }: any) => {
+    return (
+        <div className="space-y-4">
+            {events.map((ev: any, idx: number) => (
+                <div key={ev.id || idx} className="relative flex gap-3 pb-4 last:pb-0">
+                    {/* Timeline dot */}
+                    <div className="flex flex-col items-center">
+                        <div className={`h-3 w-3 rounded-full ${
+                            ev.type === 'success' ? 'bg-green-500' :
+                            ev.type === 'error' ? 'bg-red-500' :
+                            ev.type === 'warning' ? 'bg-yellow-500' :
+                            'bg-blue-500'
+                        }`} />
+                        {idx < events.length - 1 && (
+                        <div className="w-px flex-1 bg-slate-200 mt-1" style={{ minHeight: '20px' }} />
+                        )}
+                    </div>
+                    {/* Content */}
+                    <div className="flex-1 pt-0">
+                        <p className="text-sm font-medium text-slate-900">{ev.title}</p>
+                        <p className="text-xs text-slate-500 mt-0.5">{ev.description}</p>
+                        <p className="text-xs text-slate-400 mt-1">
+                            {format(new Date(ev.timestamp), "dd/MM/yyyy HH:mm:ss", { locale: vi })}
+                        </p>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
 };
-//Mockdata-replacewithAPIcall
-constmockPaymentsData:Record<string,any>={
-"PAY-001":{
-id:"PAY-001",
-amount:1500000,
-currency:"VND",
-status:"completed"asconst,
-method:"Thẻtíndụng",
-cardLast4:"4242",
-description:"GóiBrandOwner-Tháng11/2025",
-date:newDate("2025-11-01T10:30:00"),
-invoiceNumber:"INV-2025-001",
-billingEmail:"user@example.com",
-billingName:"NguyễnVănA",
-billingAddress:"123ĐườngABC,Quận1,TP.HCM",
-taxId:"0123456789",
-subtotal:1500000,
-tax:0,
-total:1500000,
-timeline:[
-{id:"1",
-title:"Thanhtoánthànhcông",
-description:"Giaodịchđãđượcxửlýthànhcông",
-timestamp:newDate("2025-11-01T10:30:15"),
-type:"success"asconst,
-},
-{id:"2",
-title:"Đangxửlýthanhtoán",
-description:"Hệthốngđangxácthựcthôngtinthanhtoán",
-timestamp:newDate("2025-11-01T10:30:05"),
-type:"success"asconst,
-},
-{id:"2",
-title:"Đangxửlýthanhtoán",
-description:"Hệthốngđangxácthựcthôngtinthanhtoán",
-timestamp:newDate("2025-11-01T10:30:05"),
-type:"info"asconst,
-},
-{id:"3",
-title:"Khởitạogiaodịch",
-description:"Yêucầuthanhtoánđãđượctạo",
-timestamp:newDate("2025-11-01T10:30:00"),
-type:"info"asconst,
-},
-],
-},
-"PAY-002":{
-id:"PAY-002",
-amount:1500000,
-currency:"VND",
-status:"completed"asconst,
-method:"Chuyểnkhoản",
-bankName:"Vietcombank",
-accountNumber:"1234567890",
-description:"GóiBrandOwner-Tháng10/2025",
-date:newDate("2025-10-01T14:20:00"),
-invoiceNumber:"INV-2025-002",
-billingEmail:"user@example.com",
-billingName:"NguyễnVănA",
-billingAddress:"123ĐườngABC,Quận1,TP.HCM",
-taxId:"0123456789",
-subtotal:1500000,
-tax:0,
-total:1500000,
-timeline:[
-{
-id:"1",
-title:"Thanhtoánthànhcông",
-description:"Giaodịchđãđượcxửlýthànhcông",
-timestamp:newDate("2025-10-01T14:20:30"),
-type:"success"asconst,
-},
-{
-id:"2",
-title:"Đangxửlýthanhtoán",
-description:"Hệthốngđangxácthựcthôngtinthanhtoán",
-timestamp:newDate("2025-10-01T14:20:15"),
-type:"success"asconst,
-},
-{
-id:"3",
-title:"Khởitạogiaodịch",
-description:"Yêucầuthanhtoánđãđượctạo",
-timestamp:newDate("2025-10-01T14:20:00"),
-type:"info"asconst,
-},
-],
-},
-"PAY-003":{
-id:"PAY-003",
-amount:1500000,
-currency:"VND",
-status:"pending"asconst,
-method:"Thẻtíndụng",
-cardLast4:"1234",
-description:"GóiBrandOwner-Tháng12/2025",
-date:newDate("2025-12-01T09:15:00"),
-invoiceNumber:"INV-2024-003",
-billingEmail:"user@example.com",
-billingName:"NguyễnVănA",
-billingAddress:"123ĐườngABC,Quận1,TP.HCM",
-taxId:"0123456789",
-subtotal:1500000,
-tax:0,
-total:1500000,
-timeline:[
-{id:"1",
-title:"Đangxửlýthanhtoán",
-description:"Hệthốngđangxácthựcthôngtinthanhtoán",
-timestamp:newDate("2025-12-01T09:15:20"),
-type:"warning"asconst,
-},
-{id:"2",
-title:"Khởitạogiaodịch",
-description:"Yêucầuthanhtoánđãđượctạo",
-timestamp:newDate("2025-12-01T09:15:00"),
-type:"info"asconst,
-},
-],
-},
-"PAY-004":{
-id:"PAY-004",
-amount:14400000,
-currency:"VND",
-status:"completed"asconst,
-method:"Chuyểnkhoản",
-bankName:"Techcombank",
-accountNumber:"0987654321",
-description:"GóiBrandOwner-Năm2025",
-date:newDate("2024-01-01T11:00:00"),
-invoiceNumber:"INV-2024-004",
-billingEmail:"user@example.com",
-billingName:"NguyễnVănA",
-billingAddress:"123ĐườngABC,Quận1,TP.HCM",
-taxId:"0123456789",
-subtotal:18000000,
-discount:3600000,
-tax:0,
-total:14400000,
-timeline:[
-{
-id:"1",
-title:"Thanhtoánthànhcông",
-description:"Giaodịchđãđượcxửlýthànhcông",
-timestamp:newDate("2025-01-01T11:00:30"),
-type:"success"asconst,
-},
-{
-id:"2",
-title:"Đangxửlýthanhtoán",
-description:"Hệthốngđangxácthựcthôngtinthanhtoán",
-timestamp:newDate("2025-01-01T11:00:15"),
-type:"success"asconst,
-},
-{
-id:"3",
-title:"Khởitạogiaodịch",
-description:"Yêucầuthanhtoánđãđượctạo",
-timestamp:newDate("2024-01-01T11:00:00"),
-type:"info"asconst,
-},
-],
-},
-"PAY-005":{
-id:"PAY-005",
-amount:1500000,
-currency:"VND",
-status:"failed"asconst,
-method:"Thẻtíndụng",
-cardLast4:"5678",
-description:"GóiBrandOwner-Tháng09/2024",
-date:newDate("2024-09-01T13:45:00"),
-invoiceNumber:"INV-2024-005",
-billingEmail:"user@example.com",
-billingName:"NguyễnVănA",
-billingAddress:"123ĐườngABC,Quận1,TP.HCM",
-taxId:"0123456789",
-subtotal:1500000,
-tax:0,
-total:1500000,
-failureReason:"Sốdưkhôngđủ",
-timeline:[
-{
-id:"1",
-title:"Thanhtoánthấtbại",
-description:"Giaodịchkhôngthànhcôngdolỗixácthực",
-timestamp:newDate("2024-09-01T13:45:20"),
-type:"error"asconst,
-},
-{
-id:"2",
-title:"Đangxửlýthanhtoán",
-description:"Hệthốngđangxácthựcthôngtinthanhtoán",
-timestamp:newDate("2024-09-01T13:45:10"),
-type:"info"asconst,
-},
-{
-id:"3",
-title:"Khởitạogiaodịch",
-description:"Yêucầuthanhtoánđãđượctạo",
-timestamp:newDate("2024-09-01T13:45:00"),
-type:"info"asconst,
-},
-],
-},
+// Mock data - replace with API call
+const mockPaymentsData: Record<string, any> = {
+    "PAY-001": {
+        id: "PAY-001",
+        amount: 1500000,
+        currency: "VND",
+         status: "completed" as const,
+         method: "Thẻ tín dụng",
+         cardLast4: "4242",
+         description: "Gói Brand Owner - Tháng 11/2025",
+         date: new Date("2025-11-01T10:30:00"),
+          invoiceNumber: "INV-2025-001",
+           billingEmail: "user@example.com",
+           billingName: "Nguyễn Văn A",
+           billingAddress: "123 Đường ABC, Quận 1, TP.HCM",
+           taxId: "0123456789",
+           subtotal: 1500000,
+           tax: 0,
+           total: 1500000,
+            timeline: [
+            { id: "1",
+                 title: "Thanh toán thành công" ,
+                 description: "Giao dịch đã được xử lý thành công",
+                 timestamp: new Date("2025-11-01T10:30:15"),
+                 type: "success" as const,
+                },          
+                {   id: "2",
+                    title: "Đang xử lý thanh toán",
+                    description: "Hệ thống đang xác thực thông tin thanh toán",
+                     timestamp: new Date("2025-11-01T10:30:05"),
+                     type: "success" as const,
+                },   
+                {   id: "2",
+                    title: "Đang xử lý thanh toán",
+                    description: "Hệ thống đang xác thực thông tin thanh toán",
+                    timestamp: new Date("2025-11-01T10:30:05"),
+                    type: "info" as const,
+                },
+                {   id: "3",
+                    title: "Khởi tạo giao dịch",
+                    description: "Yêu cầu thanh toán đã được tạo",
+                    timestamp: new Date("2025-11-01T10:30:00"),
+                    type: "info" as const,
+                },
+            ],
+    },
+    "PAY-002": {
+        id: "PAY-002",
+        amount: 1500000,
+        currency: "VND",
+        status: "completed" as const,
+        method: "Chuyển khoản",
+        bankName: "Vietcombank",
+        accountNumber: "1234567890",
+        description: "Gói Brand Owner - Tháng 10/2025",
+        date: new Date("2025-10-01T14:20:00"),
+        invoiceNumber: "INV-2025-002",
+        billingEmail: "user@example.com",
+        billingName: "Nguyễn Văn A",
+        billingAddress: "123 Đường ABC, Quận 1, TP.HCM",
+        taxId: "0123456789",
+        subtotal: 1500000,
+        tax: 0,
+        total: 1500000,
+        timeline: [
+            {
+                id: "1",
+                title: "Thanh toán thành công",
+                description: "Giao dịch đã được xử lý thành công",
+                timestamp: new Date("2025-10-01T14:20:30"),
+                type: "success" as const,
+            },
+            {
+                id: "2",
+                title: "Đang xử lý thanh toán",
+                description: "Hệ thống đang xác thực thông tin thanh toán",
+                timestamp: new Date("2025-10-01T14:20:15"),
+                type: "success" as const,
+            },
+            {
+                id: "3",
+                title: "Khởi tạo giao dịch",
+                description: "Yêu cầu thanh toán đã được tạo",
+                timestamp: new Date("2025-10-01T14:20:00"),
+                type: "info" as const,
+            },
+        ],
+    },
+    "PAY-003": {
+        id: "PAY-003",
+        amount: 1500000,
+        currency: "VND",
+        status: "pending" as const,
+        method: "Thẻ tín dụng",
+        cardLast4: "1234",
+        description: "Gói Brand Owner - Tháng 12/2025",
+        date: new Date("2025-12-01T09:15:00"),
+        invoiceNumber: "INV-2024-003",
+        billingEmail: "user@example.com",
+        billingName: "Nguyễn Văn A",
+        billingAddress: "123 Đường ABC, Quận 1, TP.HCM",
+        taxId: "0123456789",
+        subtotal: 1500000,
+        tax: 0,
+        total: 1500000,
+        timeline: [
+            {   id: "1",  
+                title: "Đang xử lý thanh toán",
+                description: "Hệ thống đang xác thực thông tin thanh toán",
+                timestamp: new Date("2025-12-01T09:15:20"),
+                type: "warning" as const,
+            },
+            {   id: "2",
+                title: "Khởi tạo giao dịch",
+                description: "Yêu cầu thanh toán đã được tạo",
+                timestamp: new Date("2025-12-01T09:15:00"),
+                type: "info" as const,
+            },
+        ],
+    },
+    "PAY-004": {
+    id: "PAY-004",
+    amount: 14400000,
+    currency: "VND",
+    status: "completed" as const,
+    method: "Chuyển khoản",
+    bankName: "Techcombank",
+    accountNumber: "0987654321",
+    description: "Gói Brand Owner - Năm 2025",
+    date: new Date("2024-01-01T11:00:00"),
+    invoiceNumber: "INV-2024-004",
+    billingEmail: "user@example.com",
+    billingName: "Nguyễn Văn A",
+    billingAddress: "123 Đường ABC, Quận 1, TP.HCM",
+    taxId: "0123456789",
+    subtotal: 18000000,
+     discount: 3600000,
+     tax: 0,
+     total: 14400000,
+     timeline: [
+        {
+            id: "1",
+            title: "Thanh toán thành công",
+            description: "Giao dịch đã được xử lý thành công",
+            timestamp: new Date("2025-01-01T11:00:30"),
+            type: "success" as const,
+        },     
+        {
+            id: "2",
+            title: "Đang xử lý thanh toán",
+            description: "Hệ thống đang xác thực thông tin thanh toán",
+            timestamp: new Date("2025-01-01T11:00:15"),
+            type: "success" as const,   
+        },   
+        {
+            id: "3",         
+            title: "Khởi tạo giao dịch",
+            description: "Yêu cầu thanh toán đã được tạo",
+            timestamp: new Date("2024-01-01T11:00:00"),
+            type: "info" as const,
+        },
+     ],
+    },
+    "PAY-005": {
+        id: "PAY-005",
+        amount: 1500000,
+        currency: "VND",
+        status: "failed" as const,
+        method: "Thẻ tín dụng",
+        cardLast4: "5678",
+        description: "Gói Brand Owner - Tháng 09/2024",
+        date: new Date("2024-09-01T13:45:00"),
+        invoiceNumber: "INV-2024-005",
+        billingEmail: "user@example.com",
+        billingName: "Nguyễn Văn A",
+        billingAddress: "123 Đường ABC, Quận 1, TP.HCM",
+        taxId: "0123456789",
+        subtotal: 1500000,
+        tax: 0,
+        total: 1500000,
+        failureReason: "Số dư không đủ",
+        timeline: [
+            {
+                id: "1",
+                title: "Thanh toán thất bại",
+                description: "Giao dịch không thành công do lỗi xác thực",
+                timestamp: new Date("2024-09-01T13:45:20"),
+                type: "error" as const,
+            },
+            {
+                id: "2",
+                title: "Đang xử lý thanh toán",
+                description: "Hệ thống đang xác thực thông tin thanh toán",
+                timestamp: new Date("2024-09-01T13:45:10"),
+                type: "info" as const,
+            },
+            {
+                id: "3",
+                title: "Khởi tạo giao dịch",
+                description: "Yêu cầu thanh toán đã được tạo",
+                timestamp: new Date("2024-09-01T13:45:00"),
+                type: "info" as const,
+            },
+        ],
+    },
 };
-exportdefaultfunctionPaymentDetailPage({
-params,
-}:{
-params:Promise<{id:string}>;
-}){
-constrouter=useRouter();
-const{id}=use(params);
-constpayment=mockPaymentsData[id];
-if(!payment){
-return(
-<divclassName="flexmin-h-screenitems-centerjustify-centerbg-gradient-to-brfrom-slate-50via-whiteto-blue-50">
-<CardclassName="w-fullmax-w-md">
-<CardHeader>
-<CardTitle>Khôngtìmthấygiaodịch</CardTitle>
-<CardDescription>
-GiaodịchvớiID<strong>{id}</strong>khôngtồntại.
-</CardDescription>
-</CardHeader>
-<CardContent>
-<Linkhref="/payments">
-<ButtonclassName="w-full">Quaylạidanhsách</Button>
-</Link>
-</CardContent>
-</Card>
-</div>
-);
-}
-consthandleDownloadInvoice=()=>{
-//Implementinvoicedownloadlogic
-alert("Tínhnăngtảihóađơnsẽđượctriểnkhai");
-};
-return(
-<divclassName="min-h-screenbg-gradient-to-brfrom-slate-50via-whiteto-blue-50">
-{/*Header*/}
-<headerclassName="border-bbg-white/80backdrop-blur">
-<divclassName="containermx-autoflexitems-centerjustify-betweenpx-6py-4">
-<Linkhref="/"className="flexitems-centerspace-x-3">
-<divclassName="flexitems-centerspace-x-2">
-<img
-src="/logo.svg"
-alt="FragoLogo"
-className="h-16w-auto"
-/>
-</div>
-<div>
-<pclassName="text-basefont-boldtext-slate-900">Chitiếtthanhtoán</p>
-</div>
-</Link>
-<divclassName="flexitems-centergap-3"></div>
-<divclassName="flexitems-centergap-2">
-<Linkhref="/payments">
-<Buttonvariant="ghost"className="text-slate-700">quaylại</Button>
-</Link>
-<Buttonvariant="outline"className="border-slate-200"onClick={handleDownloadInvoice}>Tảihóađơn</Button>
-</div>
-</div>
-</header>
-
-<mainclassName="containermx-autop-6">
-<divclassName="gridgrid-cols-1lg:grid-cols-3gap-6">
-<CardclassName="lg:col-span-2">
-<CardHeader>
-<CardTitle>Thôngtingiaodịch</CardTitle>
-<CardDescription>Giaodịch{payment.id}—{format(payment.date,"PPpp",{locale:vi})}</CardDescription>
-</CardHeader>
-<CardContent>
-<divclassName="space-y-2">
-<divclassName="flexitems-centerjustify-between">
-<divclassName="text-smtext-slate-600">Sốtiền</div>
-<divclassName="font-medium">{payment.amount.toLocaleString("vi-VN")}{payment.currency}</div>
-</div>
-<divclassName="flexitems-centerjustify-between">
-<divclassName="text-smtext-slate-600">Phươngthức</div>
-<divclassName="font-medium">{payment.method}</div>
-</div>
-<divclassName="flexitems-centerjustify-between">
-<divclassName="text-smtext-slate-600">Trạngthái</div>
-<PaymentStatusBadgestatus={payment.status}/>
-</div>
-</div>
-<SeparatorclassName="my-4"/>
-<div>
-<h4className="text-smfont-semiboldmb-2">Timeline</h4>
-<PaymentTimelineevents={payment.timeline}/>
-</div>
-</CardContent>
-</Card>
-
-<Card>
-<CardHeader>
-<CardTitle>Hóađơn</CardTitle>
-<CardDescription>Chitiếtvềgiaodịchnày</CardDescription>
-</CardHeader>
-<CardContent>
-<divclassName="space-y-2text-sm">
-<pclassName="text-smfont-mediumtext-slate-500">Mãgiaodịch</p>
-<pclassName="mt-1font-monotext-smfont-semiboldtext-slate-900">{payment.id}</p>
-</div><div>
-<pclassName="text-smfont-mediumtext-slate-500">Sốhóađơn</p>
-<pclassName="mt-1font-monotext-smfont-semiboldtext-slate-900">
-{payment.invoiceNumber}
-</p>
-</div>
-<div>
-<pclassName="text-smfont-mediumtext-slate-500">Phươngthức</p>
-<pclassName="mt-1text-smfont-semiboldtext-slate-900"></p>
-{payment.method}
-</div>
-<div><pclassName="text-smfont-mediumtext-slate-500">Ngàygiaodịch</p>
-<pclassName="mt-1text-smfont-semiboldtext-slate-900">
-{format(payment.date,"dd/MM/yyyyHH:mm",{locale:vi})}
-</p>
-</div>
-<div>
-</div><Separator/>
-{/*PaymentMethodDetails*/}
-{payment.cardLast4&&(
-<divclassName="rounded-lgbg-slate-50p-4">
-<pclassName="text-smfont-mediumtext-slate-700">Phươngthứcthanhtoán</p>
-<divclassName="mt-2flexitems-centergap-2">
-<Badgevariant="outline">{payment.cardBrand}</Badge>
-<spanclassName="font-monotext-sm">************{payment.cardLast4}</span>
-</div>
-</div>
-)}
-{payment.bankName&&(
-<divclassName="rounded-lgbg-slate-50p-4">
-<pclassName="text-smfont-mediumtext-slate-700">Thôngtinchuyểnkhoản</p>
-<divclassName="mt-2space-y-1">
-<pclassName="text-smtext-slate-900">
-<spanclassName="font-medium">Ngânhàng:</span>{""}{payment.bankName}
-</p>
-<pclassName="font-monotext-smtext-slate-900">
-<spanclassName="font-medium">STK:</span>{""}{payment.accountNumber}
-</p>
-</div>
-</div>
-)}
-{payment.failureReason&&(
-<divclassName="rounded-lgbg-red-50p-4">
-<pclassName="text-smfont-mediumtext-red-700">
-Lýdothấtbại
-</p>
-<pclassName="mt-1text-smtext-red-600">{payment.failureReason}</p>
-</div>
-)}
-<Separator/>
-<div>
-<pclassName="text-smfont-mediumtext-slate-500">Môtả</p>
-<pclassName="mt-1text-smtext-slate-900">{payment.description}</p>
-</div>
-</CardContent>
-</Card>
-{/*InvoiceDetails*/}
-<Card><CardHeader>
-<CardTitle>Chitiếthóađơn</CardTitle>
-<CardDescription>Thôngtinthanhtoánvàhóađơn</CardDescription>
-</CardHeader>
-<CardContent>
-<divclassName="space-y-3">
-<div>
-<spanclassName="flexjustify-betweentext-sm">Tạmtính</span>
-<spanclassName="font-semiboldtext-slate-900">{payment.subtotal.toLocaleString("vi-VN")}
-</span>
-</div>
-{payment.discount&&(
-<divclassName="flexjustify-betweentext-sm">
-<spanclassName="text-emerald-600">Giảmgiá(20%)</span>
-<spanclassName="font-semiboldtext-emerald-600">
--{payment.discount.toLocaleString("vi-VN")}
-</span>
-</div>
-)}
-<divclassName="flexjustify-betweentext-sm">
-<spanclassName="text-slate-600">Thuế(VAT)</span>
-<spanclassName="font-semiboldtext-slate-900">
-{payment.tax.toLocaleString("vi-VN")}
-</span>
-</div>
-<Separator/>
-<divclassName="flexjustify-between">
-<spanclassName="text-basefont-semiboldtext-slate-900">
-Tổngcộng
-</span>
-<spanclassName="text-2xlfont-boldtext-slate-900">
-{payment.total.toLocaleString("vi-VN")}
-</span>
-</div>
-</div>
-<Separator/>
-<divclassName="space-y-2text-sm">
-<divclassName="flexjustify-between">
-<spanclassName="text-slate-600">Tênkháchhàng</span>
-<spanclassName="font-mediumtext-slate-900">
-{payment.billingName}
-</span>
-</div>
-<divclassName="flexjustify-between">
-<spanclassName="text-slate-600">Email</span>
-<spanclassName="font-monofont-mediumtext-slate-900">
-{payment.taxid}
-</span>
-</div>
-<divclassName="flexjustify-between">
-<spanclassName="text-slate-600">Địachỉ</span>
-<spanclassName="text-rightfont-mediumtext-slate-900">
-{payment.billingAddress}
-</span>
-</div>
-</div>
-</CardContent>
-</Card>
-{/*Timeline*/}
-<Card>
-<CardHeader>
-<CardTitle>Lịchsửgiaodịch</CardTitle>
-<CardDescription>Theodõitrạngtháicủagiaodịchtheothờigian</CardDescription>
-</CardHeader>
-<CardContent>
-<PaymentTimelineevents={payment.timeline}/>
-</CardContent>
-</Card>
-</div>
-{/*Sidebar*/}
-<divclassName="space-y-6">
-{/*QuickActions*/}
-<Card>
-<CardHeader>
-<CardTitle>Hànhđộng</CardTitle>
-</CardHeader>
-<CardContentclassName="space-y-3">
-<Button
-variant="outline"
-className="w-full"
-onClick={handleDownloadInvoice}>
-Tảihóađơn
-</Button>
-<ButtonclassName="w-full"variant="outline">
-Gửiemailhóađơn
-</Button>
-{payment.status!=="failed"&&(
-<ButtonclassName="w-fullbg-blue-600text-whitehover:bg-blue-700">
-Thửlạithanhtoán
-</Button>
-)}
-{payment.status==="completed"&&(
-<ButtonclassName="w-full"variant="outline">
-Yêucầuhoàntiền
-</Button>
-)}
-</CardContent>
-</Card>
-{/*Support*/}
-<CardclassName="border-blue-200bg-blue-50/50">
-<CardHeader><CardTitleclassName="text-blue-900">Cầnhỗtrợ?</CardTitle>
-<CardDescriptionclassName="text-blue-700">
-Liênhệvớichúngtôinếubạncóbấtkìcâuhỏinào</CardDescription>
-</CardHeader>
-<CardContentclassName="space-y-3">
-<ButtonclassName="w-full"variant="outline">
-Chatvớihỗtrợ</Button>
-<divclassName="text-centertext-smtext-blue-700">
-<p>Email:support@frago.vn</p>
-<p>Hotline:1900xxxx</p>
-</div>
-</CardContent>
-</Card>
-</div>
-</main>
-</div>
-);
-}
+export default function PaymentDetailPage({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}) {
+    const router = useRouter();
+    const { id } = use(params);
+    const payment = mockPaymentsData[id];
+    if (!payment) {
+        return (
+        <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-50 via-white to-blue-50">
+            <Card className="w-full max-w-md">
+            <CardHeader>
+                <CardTitle>Không tìm thấy giao dịch</CardTitle>
+                <CardDescription>
+                Giao dịch với ID <strong>{id}</strong> không tồn tại.
+                </CardDescription>
+            </CardHeader> 
+            <CardContent>
+                <Link href="/payments">
+                <Button className="w-full">Quay lại danh sách</Button>
+                </Link>
+            </CardContent>
+            </Card>
+        </div>
+        );
+    }
+    const handleDownloadInvoice = () => {
+     // Implement invoice download logic
+     alert("Tính năng tải hóa đơn sẽ được triển khai");
+    };
+        return (
+          <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+            {/* Header */}
+            <header className="border-b bg-white/80 backdrop-blur">
+              <div className="container mx-auto flex items-center justify-between px-6 py-4">
+                <Link href="/" className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-2">
+                    <img 
+                 src="/logo.svg" 
+                 alt="Frago Logo" 
+                 className="h-16 w-auto"
+                 />
+                    </div>
+                  <div>
+                    <p className="text-base font-bold text-slate-900">Chi tiết thanh toán</p>
+                  </div>
+                </Link>
+                <div className="flex items-center gap-3"></div>
+                <div className="flex items-center gap-2">
+                  <Link href="/payments">
+                    <Button variant="ghost" className="text-slate-700">quay lại</Button>
+                  </Link>
+                  <Button variant="outline" className="border-slate-200" onClick={handleDownloadInvoice}>Tải hóa đơn</Button>
+                </div>
+              </div>
+            </header>
+    
+            <main className="container mx-auto p-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <Card className="lg:col-span-2">
+                  <CardHeader>
+                    <CardTitle>Thông tin giao dịch</CardTitle>
+                    <CardDescription>Giao dịch {payment.id} — {format(payment.date, "PPpp", { locale: vi })}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm text-slate-600">Số tiền</div>
+                        <div className="font-medium">{payment.amount.toLocaleString("vi-VN")} {payment.currency}</div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm text-slate-600">Phương thức</div>
+                        <div className="font-medium">{payment.method}</div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm text-slate-600">Trạng thái</div>
+                        <PaymentStatusBadge status={payment.status} />
+                      </div>
+                    </div>
+                    <Separator className="my-4" />
+                    <div>
+                      <h4 className="text-sm font-semibold mb-2">Timeline</h4>
+                      <PaymentTimeline events={payment.timeline} />
+                    </div>
+                  </CardContent>
+                </Card>
+    
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Hóa đơn</CardTitle>
+                    <CardDescription>Chi tiết về giao dịch này</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2 text-sm">
+                        <p className="text-sm font-medium text-slate-500">Mã giao dịch</p>
+                        <p className="mt-1 font-mono text-sm font-semibold text-slate-900"> {payment.id} </p>
+                         </div><div>
+                             <p className="text-sm font-medium text-slate-500">Số hóa đơn</p>
+                             <p className="mt-1 font-mono text-sm font-semibold text-slate-900">
+                                 {payment.invoiceNumber}
+                        </p>
+                    </div>
+                    <div>
+                         <p className="text-sm font-medium text-slate-500">Phương thức</p>
+                         <p className="mt-1 text-sm font-semibold text-slate-900"></p>
+                                {payment.method}
+                    </div>
+                    <div><p className="text-sm font-medium text-slate-500">Ngày giao dịch</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">
+                        {format(payment.date, "dd/MM/yyyy HH:mm", { locale: vi })}
+                        </p>
+                    </div>
+                    <div> 
+                    </div> <Separator />
+                    {/* Payment Method Details */}
+                    {payment.cardLast4 && (
+                        <div className="rounded-lg bg-slate-50 p-4">
+                            <p className="text-sm font-medium text-slate-700">Phương thức thanh toán</p>
+                            <div className="mt-2 flex items-center gap-2">
+                                <Badge variant="outline">{payment.cardBrand}</Badge>
+                                <span className="font-mono text-sm">**** **** **** {payment.cardLast4}</span>
+                            </div>
+                        </div>
+                    )}
+                    {payment.bankName && (
+                        <div className="rounded-lg bg-slate-50 p-4">
+                            <p className="text-sm font-medium text-slate-700">Thông tin chuyển khoản</p>
+                            <div className="mt-2 space-y-1">
+                            <p className="text-sm text-slate-900">
+                                <span className="font-medium">Ngân hàng:</span>{" "}{payment.bankName}
+                            </p>
+                            <p className="font-mono text-sm text-slate-900">
+                                <span className="font-medium">STK:</span>{" "}  {payment.accountNumber}
+                            </p>
+                            </div>
+                        </div>
+                    )}
+                    {payment.failureReason && (
+                         <div className="rounded-lg bg-red-50 p-4">
+                             <p className="text-sm font-medium text-red-700">
+                                    Lý do thất bại
+                             </p>
+                             <p className="mt-1 text-sm text-red-600"> {payment.failureReason}</p>
+                            </div>
+                    )}
+                    <Separator />
+                    <div>
+                        <p className="text-sm font-medium text-slate-500">Mô tả</p>
+                         <p className="mt-1 text-sm text-slate-900">{payment.description}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+                {/* Invoice Details */}
+                <Card><CardHeader>
+                    <CardTitle>Chi tiết hóa đơn</CardTitle>
+                    <CardDescription>Thông tin thanh toán và hóa đơn</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-3">
+                            <div>
+                                <span className="flex justify-between text-sm">Tạm tính</span>
+                                <span className="font-semibold text-slate-900">{payment.subtotal.toLocaleString("vi-VN")}
+                                </span>
+                        </div>
+                        {payment.discount && (
+                            <div className="flex justify-between text-sm">
+                                <span className="text-emerald-600">Giảm giá (20%)</span>
+                                <span className="font-semibold text-emerald-600">
+                                    -{payment.discount.toLocaleString("vi-VN")}
+                                </span>
+                            </div>
+                        )}
+                        <div className="flex justify-between text-sm">
+                            <span className="text-slate-600">Thuế (VAT)</span>
+                            <span className="font-semibold text-slate-900">
+                                {payment.tax.toLocaleString("vi-VN")}
+                            </span>
+                        </div>
+                        <Separator />
+                        <div className="flex justify-between">
+                            <span className="text-base font-semibold text-slate-900">
+                                Tổng cộng
+                            </span>
+                             <span className="text-2xl font-bold text-slate-900">
+                                {payment.total.toLocaleString("vi-VN")}
+                             </span>
+                        </div>
+                        </div>
+                        <Separator />
+                        <div className="space-y-2 text-sm">
+                             <div className="flex justify-between">
+                                <span className="text-slate-600">Tên khách hàng</span>
+                                <span className="font-medium text-slate-900">
+                                    {payment.billingName}
+                                </span>
+                             </div>
+                                <div className="flex justify-between">
+                                    <span className="text-slate-600">Email</span>
+                                    <span className="font-mono font-medium text-slate-900">
+                                        {payment.taxid}
+                                    </span>
+                        </div>
+                    <div className="flex justify-between">
+                        <span className="text-slate-600">Địa chỉ</span>
+                        <span className="text-right font-medium text-slate-900">
+                            {payment.billingAddress} 
+                        </span>
+                    </div>
+                    </div>
+                    </CardContent>
+                </Card>
+                {/* Timeline */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Lịch sử giao dịch</CardTitle>
+                        <CardDescription>Theo dõi trạng thái của giao dịch theo thời gian</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <PaymentTimeline events={payment.timeline} />
+                    </CardContent>
+                </Card>
+              </div>
+              {/* Sidebar */}
+              <div className="space-y-6">
+                {/* Quick Actions */}
+                <Card>
+            <CardHeader>
+                <CardTitle>Hành động</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+                <Button 
+                variant="outline" 
+                className="w-full" 
+                onClick={handleDownloadInvoice}>
+                    Tải hóa đơn
+                </Button>
+                <Button className="w-full" variant="outline">
+                    Gửi email hóa đơn
+                </Button>
+                 {payment.status !== "failed" && (
+                    <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
+                        Thử lại thanh toán
+                    </Button>
+                    )}
+                    {payment.status === "completed" && (
+                    <Button className="w-full" variant="outline">
+                        Yêu cầu hoàn tiền
+                    </Button>
+                    )}
+            </CardContent>
+        </Card>
+         {/* Support */}
+         <Card className="border-blue-200 bg-blue-50/50">
+         <CardHeader><CardTitle className="text-blue-900">Cần hỗ trợ?</CardTitle>
+         <CardDescription className="text-blue-700">
+            Liên hệ với chúng tôi nếu bạn có bất kì câu hỏi nào</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+                <Button className="w-full" variant="outline">
+                     Chat với hỗ trợ</Button>
+                     <div className="text-center text-sm text-blue-700">
+                        <p>Email: support@frago.vn</p>
+                        <p>Hotline: 1900 xxxx</p>
+                        </div>
+                    </CardContent>
+                </Card>
+              </div>
+            </main>
+          </div>
+        );
+      }
 
 

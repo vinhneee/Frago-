@@ -458,7 +458,7 @@ function ContractVerificationSection() {
                         <div>
                           <span className="text-gray-500">Loại:</span>
                           <span className="ml-2 font-medium">
-                            {contract.contractType === "expected"
+                             {contract.contractType === "expected"
                               ? "Dự kiến"
                               : "Chính thức"}
                           </span>
@@ -528,6 +528,10 @@ function ContractVerificationSection() {
 export default function AdminDashboard() {
   const [timeRange, setTimeRange] = useState("30d");
   const [selectedMetric, setSelectedMetric] = useState("users");
+
+  const formatNumber = (num: number) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -626,7 +630,7 @@ export default function AdminDashboard() {
                   <CardTitle className="text-sm font-medium text-gray-600">Total Users</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{analyticsData.overview.totalUsers.toLocaleString()}</div>
+                  <div className="text-2xl font-bold">{formatNumber(analyticsData.overview.totalUsers)}</div>
                   <div className="flex items-center mt-2">
                     <span className="text-sm text-green-600">+{analyticsData.overview.monthlyGrowth}%</span>
                     <span className="text-sm text-gray-500 ml-1">vs last month</span>
@@ -742,15 +746,15 @@ export default function AdminDashboard() {
                 <CardContent className="space-y-4">
                   <div className="flex justify-between">
                     <span className="text-sm text-gray-600">Daily Active</span>
-                    <span className="font-medium">{analyticsData.userActivity.dailyActiveUsers.toLocaleString()}</span>
+                    <span className="font-medium">{formatNumber(analyticsData.userActivity.dailyActiveUsers)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-gray-600">Weekly Active</span>
-                    <span className="font-medium">{analyticsData.userActivity.weeklyActiveUsers.toLocaleString()}</span>
+                    <span className="font-medium">{formatNumber(analyticsData.userActivity.weeklyActiveUsers)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-gray-600">Monthly Active</span>
-                    <span className="font-medium">{analyticsData.userActivity.monthlyActiveUsers.toLocaleString()}</span>
+                    <span className="font-medium">{formatNumber(analyticsData.userActivity.monthlyActiveUsers)}</span>
                   </div>
                 </CardContent>
               </Card>
@@ -770,7 +774,7 @@ export default function AdminDashboard() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-gray-600">Messages Sent</span>
-                    <span className="font-medium">{analyticsData.userActivity.messagesSent.toLocaleString()}</span>
+                    <span className="font-medium">{formatNumber(analyticsData.userActivity.messagesSent)}</span>
                   </div>
                 </CardContent>
               </Card>
@@ -781,7 +785,7 @@ export default function AdminDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-3xl font-bold text-blue-600 mb-2">
-                    {analyticsData.userActivity.profileViews.toLocaleString()}
+                    {formatNumber(analyticsData.userActivity.profileViews)}
                   </div>
                   <p className="text-sm text-gray-600">Total profile views this month</p>
                   <p className="text-sm text-green-600 mt-1">+15.2% vs last month</p>

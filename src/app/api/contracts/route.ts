@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-// Mock database - in production, this would be a real database
-let contractsDB: any[] = [];
+import { contractsDB } from "@/lib/contractsDB";
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();

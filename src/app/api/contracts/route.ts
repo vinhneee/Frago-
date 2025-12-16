@@ -55,15 +55,23 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
+    
+    console.log("=== GET CONTRACTS REQUEST ===");
+    console.log("User ID:", userId);
+    console.log("Total contracts in DB:", contractsDB.length);
+    console.log("Contracts:", contractsDB);
+    
     if (userId) {
       // Get contracts for specific user
       const userContracts = contractsDB.filter((c) => c.userId === userId);
+      console.log("User contracts found:", userContracts.length);
       return NextResponse.json({
         success: true,
         contracts: userContracts,
       });
     }
     // Get all contracts (for admin)
+    console.log("Returning all contracts");
     return NextResponse.json({
       success: true,
       contracts: contractsDB,

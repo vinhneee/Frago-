@@ -26,14 +26,16 @@ interface ConnectionFeeModalProps {
 
   matchedCompany?: string;
 }
-// Calculate connection fee based on deal count tiers
-const calculateConnectionFee = (dealCount: number): number => {
-  if (dealCount < 50) return 200000;
-  if (dealCount >= 50 && dealCount < 100) return 3000000;
-  if (dealCount >= 100 && dealCount < 300) return 8000000;
-  if (dealCount >= 300 && dealCount < 700) return 10000000;
-  if (dealCount >= 700 && dealCount < 1000) return 12750000;
-  return 14000000; // 1000+
+// Calculate connection fee based on contract value tiers (in VND)
+const calculateConnectionFee = (contractValue: number): number => {
+  const valueInMillions = contractValue / 1000000; // Convert to millions
+  
+  if (valueInMillions < 50) return 800000;           // < 50 triệu
+  if (valueInMillions >= 50 && valueInMillions < 100) return 2500000;   // 50-100 triệu
+  if (valueInMillions >= 100 && valueInMillions < 300) return 3000000;  // 100-300 triệu
+  if (valueInMillions >= 300 && valueInMillions < 700) return 10000000; // 300-700 triệu
+  if (valueInMillions >= 700 && valueInMillions < 1000) return 12750000; // 700-1000 triệu
+  return 14000000; // >= 1000 triệu (1 tỷ+)
 };
 export default function ConnectionFeeModal({
   isOpen,
@@ -94,15 +96,10 @@ export default function ConnectionFeeModal({
  
  
         if (verifiedContract) {
- 
           setContractValue(verifiedContract.contractValue);
- 
           setDealCount(verifiedContract.dealCount);
- 
-          const fee = calculateConnectionFee(verifiedContract.dealCount);
- 
+          const fee = calculateConnectionFee(verifiedContract.contractValue);
           setConnectionFee(fee);
- 
         } else {
  
           // No verified contract found
@@ -142,13 +139,26 @@ export default function ConnectionFeeModal({
       maximumFractionDigits: 0,
     }).format(amount);
   };
-  const getTierDescription = (dealCount: number): string => {
-    if (dealCount < 50) return "Dưới 50 giao dịch";
-    if (dealCount >= 50 && dealCount < 100) return "50 - 100 giao dịch";
-    if (dealCount >= 100 && dealCount < 300) return "100 - 300 giao dịch";
-    if (dealCount >= 300 && dealCount < 700) return "300 - 700 giao dịch";
-    if (dealCount >= 700 && dealCount < 1000) return "700 - 1000 giao dịch";
-    return "Trên 1000 giao dịch";
+  const getTierDescription = (contractValue: number): string => {
+    const valueInMillions = contractValue / 1000000;
+    
+    if (valueInMillions < 50) return "Dưới 50 triệu";
+    if (valueInMillions >= 50 && valueInMillions < 100) return "50 - 100 triệu";
+    if (valueInMillions >= 100 && valueInMillions < 300) return "100 - 300 triệu";
+    if (valueInMillions >= 300 && valueInMillions < 700) return "300 - 700 triệu";
+    if (valueInMillions >= 700 && valueInMillions < 1000) return "700 triệu - 1 tỷ";
+    return "Trên 1 tỷ";
+  };
+  
+  const getFeeForTier = (contractValue: number): string => {
+    const valueInMillions = contractValue / 1000000;
+    
+    if (valueInMillions < 50) return "800,000 VNĐ";
+    if (valueInMillions >= 50 && valueInMillions < 100) return "2,500,000 VNĐ";
+    if (valueInMillions >= 100 && valueInMillions < 300) return "3,000,000 VNĐ";
+    if (valueInMillions >= 300 && valueInMillions < 700) return "10,000,000 VNĐ";
+    if (valueInMillions >= 700 && valueInMillions < 1000) return "12,750,000 VNĐ";
+    return "14,000,000 VNĐ";
   };
   const handleConfirm = async () => {
     setIsRedirecting(true);
@@ -254,7 +264,10 @@ export default function ConnectionFeeModal({
                     {formatCurrency(contractValue)}
                   </p>
                   <p className="text-xs text-gray-500 mt-1">
-                    Số giao dịch: {dealCount} ({getTierDescription(dealCount)})
+                    Mức giá trị: {getTierDescription(contractValue)}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Số giao dịch: {dealCount}
                   </p>
                 </div>
                 <p className="text-xs text-gray-500">
@@ -286,9 +299,20 @@ export default function ConnectionFeeModal({
               <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
                 <p className="text-xs text-gray-600 leading-relaxed">
                   <span className="font-semibold">Lưu ý:</span> Chi phí kết nối
-                  được tính dựa trên số lượng giao dịch theo bảng giá. Chi phí này
+                  được tính dựa trên giá trị hợp đồng theo bảng giá. Chi phí này
                   giúp nền tảng duy trì và phát triển dịch vụ kết nối doanh nghiệp.
                 </p>
+                <div className="mt-2 text-xs text-gray-500">
+                  <p className="font-semibold mb-1">Bảng giá chi phí kết nối:</p>
+                  <ul className="space-y-1 ml-2">
+                    <li>• Dưới 50 triệu: 800,000 VNĐ</li>
+                    <li>• 50 - 100 triệu: 2,500,000 VNĐ</li>
+                    <li>• 100 - 300 triệu: 3,000,000 VNĐ</li>
+                    <li>• 300 - 700 triệu: 10,000,000 VNĐ</li>
+                    <li>• 700 triệu - 1 tỷ: 12,750,000 VNĐ</li>
+                    <li>• Trên 1 tỷ: 14,000,000 VNĐ</li>
+                  </ul>
+                </div>
           </div>
         </div>
          <DialogFooter className="gap-2 sm:gap-0">

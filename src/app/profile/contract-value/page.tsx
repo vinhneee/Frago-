@@ -116,25 +116,6 @@ export default function ContractValuePage() {
                   </div>
                 </RadioGroup>
               </div>
-              {/* Deal Count */}
-              <div className="space-y-2">
-                <Label htmlFor="dealCount" className="text-base font-semibold">
-                  Số lượng giao dịch (deals)
-                </Label>
-                <Input
-                  id="dealCount"
-                  type="number"
-                  placeholder="Ví dụ: 50"
-                  value={dealCount}
-                  onChange={(e) => setDealCount(e.target.value)}
-                  min="1"
-                  required
-                  className="text-base"
-                />
-                <p className="text-sm text-gray-500">
-                  Số lượng giao dịch/hợp đồng dự kiến hoặc đã thực hiện
-                </p>
-              </div>
               {/* Contract Value */}
               <div className="space-y-2">
                 <Label htmlFor="contractValue" className="text-base font-semibold">
@@ -238,39 +219,6 @@ export default function ContractValuePage() {
           </CardContent>
         </Card>
         {/* Pricing Reference */}
-        <Card className="mt-6 bg-gradient-to-br from-slate-50 to-blue-50">
-          <CardHeader>
-            <CardTitle className="text-lg">Bảng giá chi phí kết nối</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-600">Dưới 50 giao dịch</span>
-                <span className="font-semibold">200,000 VND</span>
-              </div>
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-600">50 - 100 giao dịch</span>
-                <span className="font-semibold">3,000,000 VND</span>
-              </div>
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-600">100 - 300 giao dịch</span>
-                <span className="font-semibold">8,000,000 VND</span>
-              </div>
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-600">300 - 700 giao dịch</span>
-                <span className="font-semibold">10,000,000 VND</span>
-              </div>
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-600">700 - 1000 giao dịch</span>
-                <span className="font-semibold">12,750,000 VND</span>
-              </div>
-              <div className="flex justify-between py-2">
-                <span className="text-gray-600">Trên 1000 giao dịch</span>
-                <span className="font-semibold">14,000,000 VND</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

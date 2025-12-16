@@ -137,6 +137,28 @@ export default function ContractValuePage() {
                   Tổng giá trị hợp đồng bằng VND
                 </p>
               </div>
+              {/* Deal Count */}
+              <div className="space-y-2">
+                <Label htmlFor="dealCount" className="text-base font-semibold">
+                  Số lượng giao dịch
+                  <span className="text-red-500 ml-1">*</span>
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="dealCount"
+                    type="number"
+                    placeholder="Ví dụ: 1"
+                    value={dealCount}
+                    onChange={(e) => setDealCount(e.target.value)}
+                    min="1"
+                    required
+                    className="text-base"
+                  />
+                </div>
+                <p className="text-sm text-gray-500">
+                  Số lượng giao dịch/deal trong hợp đồng này
+                </p>
+              </div>
               {/* Evidence Upload */}
               <div className="space-y-2">
                 <Label htmlFor="evidence" className="text-base font-semibold">
